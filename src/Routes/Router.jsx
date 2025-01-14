@@ -8,6 +8,8 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignIn from "../Pages/SignIn/SignIn";
 import ErrorPage from "../Pages/Error/ErrorPage";
+import AllTrainer from "../Pages/AllTrainer/AllTrainer";
+import PrivetRoutes from "./PrivetRoutes";
 
   export const router = createBrowserRouter([
     {
@@ -26,6 +28,10 @@ import ErrorPage from "../Pages/Error/ErrorPage";
         {
             path:'signIn',
             element:<SignIn></SignIn>
+        },
+        {
+            path:'allTrainer',
+            element:<PrivetRoutes><AllTrainer></AllTrainer></PrivetRoutes>
         }
       ]
     },

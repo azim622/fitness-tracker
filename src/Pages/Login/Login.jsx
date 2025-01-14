@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthPRovider";
 import Swal from "sweetalert2";
 
 const Login = () => {
     const { signin } = useContext(AuthContext);
+    const navigate = useNavigate()
+  const location = useLocation();
+
+  const from = location?.state?.from?.pathname || "/";
+  console.log("state in  the location", location.state);
+
     const handleLogin = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -21,7 +27,7 @@ const Login = () => {
               showConfirmButton: false,
               timer: 1500,
             });
-            // navigate(from, { replace: true });
+            navigate(from, { replace: true });
           });
     }
   return (
