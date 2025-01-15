@@ -16,6 +16,7 @@ import DashBoard from "../Layout/DashBoard/DashBoard";
 import NewsLaterSubscriber from "../Pages/DashBoard/NewsLatterSub/NewsLaterSubscriber";
 import ShowTrainer from "../Pages/DashBoard/AllTrainer/ShowTrainer";
 import AddClass from "../Pages/AddClass/AddClass";
+import AllClass from "../Pages/AllClass/AllClass";
 
   export const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ import AddClass from "../Pages/AddClass/AddClass";
         {
           path:"applyTrainer",
           element:<BeATrainer></BeATrainer>
+        },
+        {
+          path:"allClass",
+          element:<AllClass></AllClass>
         }
         
       ]
