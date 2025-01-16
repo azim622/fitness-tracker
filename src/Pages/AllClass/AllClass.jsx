@@ -4,25 +4,33 @@ import AxiosPublic from '../../Hooks/AxiosPublic';
 const AllClass = () => {
     const [classes, setClasses] = useState([]);
     const [search, setSearch] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     const axiosPublic = AxiosPublic();
 
-    const fetchClasses = async (searchQuery = '') => {
+    const fetchClasses = async (searchQuery = '', page = 1) => {
         try {
-            const response = await axiosPublic.get(`/addClass?search=${searchQuery}`);
-            setClasses(response.data);
+            const response = await axiosPublic.get(`/addClass?search=${searchQuery}&page=${page}&limit=6`);
+            setClasses(response.data.classes);
+            setTotalPages(response.data.totalPages);
         } catch (error) {
             console.error('Error fetching classes:', error);
         }
     };
 
     useEffect(() => {
-        fetchClasses();
-    }, []);
+        fetchClasses(search, currentPage);
+    }, [currentPage, search]);
 
     const handleSearch = (event) => {
         const query = event.target.value;
         setSearch(query);
-        fetchClasses(query); // Fetch classes based on the search query
+        setCurrentPage(1); // Reset to the first page on search
+        fetchClasses(query, 1);
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
 
     return (
@@ -34,7 +42,7 @@ const AllClass = () => {
                     value={search}
                     onChange={handleSearch}
                     placeholder="Search for a class..."
-                    className="border  rounded-lg px-4 py-2 w-1/2"
+                    className="border rounded-lg px-4 py-2 w-1/2"
                 />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -55,6 +63,23 @@ const AllClass = () => {
                             )}
                         </div>
                     </div>
+                ))}
+            </div>
+
+            {/* Pagination */}
+            <div className="mt-6 flex justify-center items-center gap-4">
+                {[...Array(totalPages).keys()].map((page) => (
+                    <button
+                        key={page + 1}
+                        onClick={() => handlePageChange(page + 1)}
+                        className={`px-4 py-2 border rounded-lg ${
+                            currentPage === page + 1
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-gray-100 text-gray-700'
+                        }`}
+                    >
+                        {page + 1}
+                    </button>
                 ))}
             </div>
         </div>

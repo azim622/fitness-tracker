@@ -5,8 +5,9 @@ const Details = () => {
   const trainer = useLoaderData(); // Fetch data from the loader
   const navigate = useNavigate();
 
-  if (!trainer) {
-    return <div>Loading...</div>; // Show a loading state until data is available
+  // Check if trainer data is available
+  if (!trainer || Object.keys(trainer).length === 0) {
+    return <div>Error: Trainer data not found.</div>;
   }
 
   return (

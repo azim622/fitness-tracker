@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthPRovider';
 import Swal from 'sweetalert2';
+import SocialLogin from '../../Shared/socialLogin/SocialLogin';
+import AxiosPublic from '../../Hooks/AxiosPublic';
 
 const SignIn = () => {
   const {
@@ -12,8 +14,9 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
 
-  const {createUser , updateUserProfile ,googleSignIn} = useContext(AuthContext)
+  const {createUser , updateUserProfile } = useContext(AuthContext)
   const navigate = useNavigate()
+  const axiosPublic= AxiosPublic()
 
   const onSubmit=data =>{
     console.log(data)
@@ -23,41 +26,31 @@ const SignIn = () => {
     console.log(loggedUser);
     updateUserProfile(data.name, data.photo)
       .then(() => {
-        console.log("user profile info updated");
-        reset();
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "Profile Updated Successfully",
-          showConfirmButton: false,
-          timer: 1500,
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            console.log('user login in the database')
+            reset();
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "Profile Update Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/");
+          }
         });
-        navigate('/')
       })
       .catch((error) => console.log(error));
   })
   .catch((error) => console.log(error));
 
   }
-  const handleGoogleLogin = () => {
-    googleSignIn()
-      .then((result) => {
-        const user = result.user;
-        console.log("Google Login Success:", user);
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: `Welcome ${user.displayName}!`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Google Login Error:", error);
-        
-      });
-  };
+  
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
       {/* Card with form */}
@@ -190,14 +183,7 @@ const SignIn = () => {
           </button>
         </div>
         {/* social login */}
-        <div className="text-center mt-4">
-          <button
-            onClick={handleGoogleLogin}
-            className="inline-flex items-center justify-center w-11/12 h-10 gap-2 px-5 text-sm font-medium tracking-wide text-white transition duration-300 rounded focus:outline-none bg-red-500 hover:bg-red-600"
-          >
-            Continue with Google
-          </button>
-        </div>
+        <SocialLogin></SocialLogin>
 
         <p className="text-center mt-4">
         <small>

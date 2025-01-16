@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import useAuth from "../../../Hooks/UseAuth";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import Swal from "sweetalert2";
 
 const NewsLatter = () => {
   const [name, setName] = useState("");
@@ -14,7 +15,13 @@ const NewsLatter = () => {
     try {
       const response = await axiosSecure.post("/newsLatter", { name, email });
       if (response.data.message) {
-        alert(response.data.message);  // Show success/error message from backend
+       Swal.fire({
+                   position: "top-center",
+                   icon: "success",
+                   title: "NewsLatter Added Successful",
+                   showConfirmButton: false,
+                   timer: 1500,
+                 });  // Show success/error message from backend
       }
       setName(""); // Clear input fields
       setEmail("");

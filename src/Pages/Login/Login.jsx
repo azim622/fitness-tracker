@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthPRovider";
 import Swal from "sweetalert2";
+import SocialLogin from "../../Shared/socialLogin/SocialLogin";
 
 const Login = () => {
-    const { signin , googleSignIn } = useContext(AuthContext);
+    const { signin  } = useContext(AuthContext);
     const navigate = useNavigate()
   const location = useLocation();
 
@@ -30,25 +31,7 @@ const Login = () => {
             navigate(from, { replace: true });
           });
     }
-    const handleGoogleLogin = () => {
-      googleSignIn()
-        .then((result) => {
-          const user = result.user;
-          console.log("Google Login Success:", user);
-          Swal.fire({
-            position: "top-center",
-            icon: "success",
-            title: `Welcome ${user.displayName}!`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          navigate(from, { replace: true });
-        })
-        .catch((error) => {
-          console.error("Google Login Error:", error);
-          
-        });
-    };
+   
   return (
 
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -108,14 +91,7 @@ const Login = () => {
           </button>
         </div>
         {/* social login */}
-        <div className="text-center mt-4">
-          <button
-            onClick={handleGoogleLogin}
-            className="inline-flex items-center justify-center w-11/12 h-10 gap-2 px-5 text-sm font-medium tracking-wide text-white transition duration-300 rounded focus:outline-none bg-red-500 hover:bg-red-600"
-          >
-            Continue with Google
-          </button>
-        </div>
+        <SocialLogin></SocialLogin>
 
         <p className="text-center mt-4">
         <small>

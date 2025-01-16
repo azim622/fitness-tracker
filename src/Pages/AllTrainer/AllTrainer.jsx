@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AllTrainer = () => {
     const [trainers, setTrainers] = useState([]);
@@ -81,12 +81,10 @@ const AllTrainer = () => {
                   </a>
                 )}
               </div>
-              <button
-                onClick={() => navigate(`/details/${trainer._id}`)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-              >
-                Know More
-              </button>
+              <Link to={`/details/${trainer._id}`}  className="bg-blue-500 mx-auto text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+              Read More
+
+              </Link>
             </div>
           ))}
         </div>
