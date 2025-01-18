@@ -1,11 +1,11 @@
 import React from 'react';
 
 const AddNewSlot = () => {
-    return (
-        <div>
-            add new slot
-        </div>
-    );
+  return (
+    <div>
+      
+    </div>
+  );
 };
 
 export default AddNewSlot;

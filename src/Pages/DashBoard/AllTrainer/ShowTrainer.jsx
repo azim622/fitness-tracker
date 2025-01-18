@@ -11,7 +11,7 @@ const ShowTrainer = () => {
   const { data: trainers = [], refetch } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/apply");
+      const res = await axiosSecure.get("/allTrainer");
       return res.data;
     },
   });
@@ -29,7 +29,7 @@ const ShowTrainer = () => {
       if (result.isConfirmed) {
         // Correct URL for the delete endpoint with the trainer's ID
         axiosSecure
-          .delete(`/apply/${id}`)
+          .delete(`/allTrainer/${id}`)
           .then((res) => {
             if (res.data.deletedCount > 0) {
               Swal.fire({

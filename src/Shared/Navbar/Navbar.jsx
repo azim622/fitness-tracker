@@ -7,6 +7,9 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logOut } = useContext(AuthContext);
 
+  const isAdmin=false
+  const isTrainer= true
+  const isMember =false
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (!event.target.closest("#avatar-dropdown")) {
@@ -138,7 +141,13 @@ const Navbar = () => {
                 {isDropdownOpen && (
                   <ul className="absolute right-0 -mb-28 w-40 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <li>
-                      <Link to="/dashboard/newsLatter">Dashboard</Link>
+                     {
+                      isAdmin?
+                      <Link to="/dashboard/admin/newsLatter">Dashboard</Link>:
+                      isTrainer?
+                      <Link to="/dashboard/trainer/addSlot">Dashboard</Link>:
+                      <Link to="/dashboard/member">Dashboard</Link>
+                     }
                     </li>
                     <li>
                       {user ? (

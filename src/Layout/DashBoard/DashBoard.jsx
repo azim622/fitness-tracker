@@ -28,7 +28,7 @@ const DashBoard = () => {
           <ul className="menu mt-8 px-4 text-white space-y-4">
           <li>
             <NavLink
-              to="/dashboard/newsLatter"
+              to="/dashboard/admin/newsLatter"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               NewsLatter Subscriber
@@ -36,7 +36,7 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/showTrainer"
+              to="/dashboard/admin/showTrainer"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               All Trainer
@@ -44,7 +44,7 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/addClass"
+              to="/dashboard/admin/addClass"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               Add Class
@@ -52,10 +52,26 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/users"
+              to="/dashboard/admin/applyTrainer"
+              className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+            >
+              Applied Trainer
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/dashboard/admin/users"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               All Users
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/dashboard/admin/addForum"
+              className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+            >
+              Add Forum
             </NavLink>
           </li>
           <div className="divider border-t border-white mt-4"></div>
@@ -64,7 +80,7 @@ const DashBoard = () => {
           <ul className="menu mt-8 px-4 text-white space-y-4">
           <li>
             <NavLink
-              to="/dashboard/addSlot"
+              to="/dashboard/trainer/addSlot"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               Add New Slot
@@ -72,7 +88,7 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/showTrainer"
+              to="/dashboard/trainer/showTrainer"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               All Trainer
@@ -80,7 +96,7 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/addClass"
+              to="/dashboard/trainer/addClass"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               Add 
@@ -88,7 +104,7 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/users"
+              to="/dashboard/trainer/users"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
               All

@@ -19,6 +19,8 @@ import AddClass from "../Pages/AddClass/AddClass";
 import AllClass from "../Pages/AllClass/AllClass";
 import AllUser from "../Pages/DashBoard/AllUser/AllUser";
 import AddNewSlot from "../Layout/DashBoard/AddNewSlot/AddNewSlot";
+import AddForum from "../Pages/DashBoard/AddForum/AddForum";
+import AppliedTrainer from "../Pages/DashBoard/AppliedTrainer/AppliedTrainer";
 
   export const router = createBrowserRouter([
     {
@@ -62,26 +64,35 @@ import AddNewSlot from "../Layout/DashBoard/AddNewSlot/AddNewSlot";
       path:"dashBoard",
       element:<DashBoard></DashBoard>,
       children:[
+
         // admin routes
         {
-          path:"newsLatter",
+          path:"admin/newsLatter",
           element:<PrivetRoutes><NewsLaterSubscriber></NewsLaterSubscriber></PrivetRoutes>
         },
         {
-          path:"showTrainer",
+          path:"admin/showTrainer",
           element:<PrivetRoutes><ShowTrainer></ShowTrainer></PrivetRoutes>
         },
         {
-          path:"addClass",
+          path:"admin/addClass",
           element:<PrivetRoutes><AddClass></AddClass></PrivetRoutes>
         },
         {
-          path:"users",
+          path:"admin/users",
           element:<PrivetRoutes><AllUser></AllUser></PrivetRoutes>
+        },
+        {
+          path:"admin/addForum",
+          element:<PrivetRoutes><AddForum></AddForum></PrivetRoutes>
+        },
+        {
+          path:"admin/applyTrainer",
+          element:<PrivetRoutes><AppliedTrainer></AppliedTrainer></PrivetRoutes>
         },
         // trainer
         {
-          path:"addSlot",
+          path:"trainer/addSlot",
           element:<PrivetRoutes><AddNewSlot></AddNewSlot></PrivetRoutes>
         }
       ]

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Select from 'react-select';
-import useAuth from '../../Hooks/UseAuth';
-import axios from 'axios';
-import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
+import React, { useState } from "react";
+import Select from "react-select";
+import useAuth from "../../Hooks/UseAuth";
+import axios from "axios";
+import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -11,32 +11,32 @@ const ApplyForm = () => {
   const { user } = useAuth();
   const axiosSecure = UseAxiosSecure();
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: user?.email || '',
-    experience: '',
+    fullName: "",
+    email: user?.email || "",
+    experience: "",
     profileImage: null,
     skills: [],
     availableDays: [],
-    availableTime: '',
+    availableTime: "",
   });
 
   const skillOptions = [
-    { value: 'Personal Training', label: 'Personal Training' },
-    { value: 'Yoga Instruction', label: 'Yoga Instruction' },
-    { value: 'Nutrition Coaching', label: 'Nutrition Coaching' },
-    { value: 'Cardio Training', label: 'Cardio Training' },
-    { value: 'Strength Training', label: 'Strength Training' },
-    { value: 'Group Fitness', label: 'Group Fitness' },
+    { value: "Personal Training", label: "Personal Training" },
+    { value: "Yoga Instruction", label: "Yoga Instruction" },
+    { value: "Nutrition Coaching", label: "Nutrition Coaching" },
+    { value: "Cardio Training", label: "Cardio Training" },
+    { value: "Strength Training", label: "Strength Training" },
+    { value: "Group Fitness", label: "Group Fitness" },
   ];
 
   const dayOptions = [
-    { value: 'Sun', label: 'Sunday' },
-    { value: 'Mon', label: 'Monday' },
-    { value: 'Tue', label: 'Tuesday' },
-    { value: 'Wed', label: 'Wednesday' },
-    { value: 'Thu', label: 'Thursday' },
-    { value: 'Fri', label: 'Friday' },
-    { value: 'Sat', label: 'Saturday' },
+    { value: "Sun", label: "Sunday" },
+    { value: "Mon", label: "Monday" },
+    { value: "Tue", label: "Tuesday" },
+    { value: "Wed", label: "Wednesday" },
+    { value: "Thu", label: "Thursday" },
+    { value: "Fri", label: "Friday" },
+    { value: "Sat", label: "Saturday" },
   ];
 
   const handleChange = (field, value) => {
@@ -51,18 +51,18 @@ const ApplyForm = () => {
     e.preventDefault();
 
     if (!formData.profileImage) {
-      alert('Please upload a profile image!');
+      alert("Please upload a profile image!");
       return;
     }
 
     const imageData = new FormData();
-    imageData.append('image', formData.profileImage);
+    imageData.append("image", formData.profileImage);
 
     try {
       // Upload the image to ImageBB
       const response = await axios.post(image_hosting_api, imageData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -73,25 +73,28 @@ const ApplyForm = () => {
         const finalFormData = {
           ...formData,
           profileImage: imageUrl, // Replace the file object with the image URL
-          status: 'pending', // Ensure the status is set to 'pending'
+          status: "pending", // Ensure the status is set to 'pending'
         };
 
-        console.log('Submitted Data:', finalFormData);
-        alert('Form submitted successfully with image!');
+        console.log("Submitted Data:", finalFormData);
+        alert("Form submitted successfully with image!");
 
         // Submit the data to the backend
-        await axiosSecure.post('/apply', finalFormData);
+        await axiosSecure.post("/apply", finalFormData);
       } else {
-        alert('Image upload failed. Please try again.');
+        alert("Image upload failed. Please try again.");
       }
     } catch (error) {
-      console.error('Error uploading image:', error);
-      alert('An error occurred while uploading the image.');
+      console.error("Error uploading image:", error);
+      alert("An error occurred while uploading the image.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200">
+    <form
+      onSubmit={handleSubmit}
+      className="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200"
+    >
       <div className="p-6">
         <header className="mb-4 text-center">
           <h3 className="text-xl font-medium text-slate-700">Apply Form</h3>
@@ -103,7 +106,7 @@ const ApplyForm = () => {
               type="text"
               placeholder="Full Name"
               value={formData.fullName}
-              onChange={(e) => handleChange('fullName', e.target.value)}
+              onChange={(e) => handleChange("fullName", e.target.value)}
               className="w-full h-10 px-4 text-sm border rounded outline-none focus:border-emerald-500"
               required
             />
@@ -123,9 +126,9 @@ const ApplyForm = () => {
           <div className="relative">
             <input
               type="number"
-              placeholder="experience"
-              value={formData.experience}
-              onChange={(e) => handleChange('experience', e.target.value)}
+              placeholder="Age"
+              value={formData.age || ""}
+              onChange={(e) => handleChange("age", e.target.value)}
               className="w-full h-10 px-4 text-sm border rounded outline-none focus:border-emerald-500"
               required
             />
@@ -146,7 +149,12 @@ const ApplyForm = () => {
             <Select
               isMulti
               options={skillOptions}
-              onChange={(selected) => handleChange('skills', selected.map((option) => option.value))}
+              onChange={(selected) =>
+                handleChange(
+                  "skills",
+                  selected.map((option) => option.value)
+                )
+              }
               placeholder="Select Skills"
             />
           </div>
@@ -156,7 +164,12 @@ const ApplyForm = () => {
             <Select
               isMulti
               options={dayOptions}
-              onChange={(selected) => handleChange('availableDays', selected.map((option) => option.value))}
+              onChange={(selected) =>
+                handleChange(
+                  "availableDays",
+                  selected.map((option) => option.value)
+                )
+              }
               placeholder="Select Available Days"
             />
           </div>
@@ -167,7 +180,7 @@ const ApplyForm = () => {
               type="text"
               placeholder="Available Time"
               value={formData.availableTime}
-              onChange={(e) => handleChange('availableTime', e.target.value)}
+              onChange={(e) => handleChange("availableTime", e.target.value)}
               className="w-full h-10 px-4 text-sm border rounded outline-none focus:border-emerald-500"
               required
             />
