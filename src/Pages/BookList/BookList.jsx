@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useLoaderData } from "react-router-dom";
 
@@ -9,6 +10,14 @@ const BookList = () => {
   if (!trainer) {
     return <div>Error: Trainer data not found.</div>;
   }
+
+  const { data: trainers = [] } = useQuery({
+    queryKey: ['trainer',],
+    queryFn: async () => {
+      const res = await axiosSecure.get('/addClass');
+      return res.data;
+    },
+  });
 
   return (
     <div className="trainer-details container mx-auto p-6">
@@ -41,7 +50,7 @@ const BookList = () => {
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Classes</h3>
         {trainer.classes?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trainer.classes.map((classItem) => (
+            {trainers.classes.map((classItem) => (
               <div
                 key={classItem._id}
                 className="class-card border rounded-lg p-4 shadow-sm hover:shadow-md transition"

@@ -23,6 +23,7 @@ import AddForum from "../Pages/DashBoard/AddForum/AddForum";
 import AppliedTrainer from "../Pages/DashBoard/AppliedTrainer/AppliedTrainer";
 import BookList from "../Pages/BookList/BookList";
 import ActivityLog from "../Layout/DashBoard/ActivityLog/ActivityLog";
+import Community from "../Pages/Community/Community";
 
   export const router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ import ActivityLog from "../Layout/DashBoard/ActivityLog/ActivityLog";
         {
           path:"allClass",
           element:<AllClass></AllClass>
+        },
+        {
+          path:"community",
+          element:<Community></Community>
         }
         
       ]

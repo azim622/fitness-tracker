@@ -1,29 +1,49 @@
 import React, { useState } from 'react';
 import AxiosPublic from '../../../Hooks/AxiosPublic';
+import { useQuery } from '@tanstack/react-query';
+import Swal from 'sweetalert2';
 
 const AddForum = () => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
-  const axiosInstance = AxiosPublic();
+  const axiosPublic = AxiosPublic();
+  
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewPost({ ...newPost, [name]: value });
-  };
+//   const {data: trainers=[]}=useQuery({
+//     queryKey:['trainers'],
+//     queryFn:async()=>{
+//         const res = await axiosPublic.post('/forums')
+//         return res.data 
+//     }
+// })
+
+
 
   const handlePostSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axiosInstance.post('/forums', newPost);
-      if (response.data.insertedId) {
-        alert('Forum post added successfully!');
-        setNewPost({ title: '', content: '' }); // Clear the form
-      } else {
-        alert('Failed to add forum post.');
+    e.preventDefault()
+    const form =e.target 
+    const title=form.title.value
+    const content=form.content.value
+    const newPost = {title , content, upVote:0 , downVote:0}
+    console.log(newPost)
+
+    try{
+      const res = await axiosPublic.post('/forums', newPost)
+      const data = await res.data
+      console.log(data)
+      if(data.insertedId){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your added successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
-    } catch (error) {
-      console.error('Error adding forum post:', error);
-      alert('Something went wrong. Please try again.');
+
     }
+   catch(error){
+    console.log(error)
+   }
   };
 
   return (
@@ -39,8 +59,7 @@ const AddForum = () => {
             type="text"
             id="title"
             name="title"
-            value={newPost.title}
-            onChange={handleInputChange}
+            // value={newPost.title}
             placeholder="Enter forum title"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -55,8 +74,7 @@ const AddForum = () => {
           <textarea
             id="content"
             name="content"
-            value={newPost.content}
-            onChange={handleInputChange}
+            // value={newPost.content}
             placeholder="Write your forum content..."
             rows="6"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
