@@ -3,6 +3,7 @@ import Select from "react-select";
 import useAuth from "../../Hooks/UseAuth";
 import axios from "axios";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import Swal from "sweetalert2";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -77,7 +78,13 @@ const ApplyForm = () => {
         };
 
         console.log("Submitted Data:", finalFormData);
-        alert("Form submitted successfully with image!");
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Trainer request added successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
         // Submit the data to the backend
         await axiosSecure.post("/apply", finalFormData);

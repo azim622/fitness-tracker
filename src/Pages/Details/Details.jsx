@@ -17,14 +17,22 @@ const Details = () => {
         <div className="lg:col-span-2 bg-white shadow-lg rounded-lg p-6">
           <img
             src={trainer.profileImage}
-            alt={trainer.trainerName}
+            alt={trainer.fullName}
             className="rounded-lg mb-4 w-full h-64 object-cover"
           />
-          <h1 className="text-3xl font-bold mb-4">{trainer.trainerName}</h1>
+          <h1 className="text-3xl font-bold mb-4">{trainer.fullName}</h1>
           <p className="text-gray-700 mb-2">
-            <strong>Experience:</strong> {trainer.yearsOfExperience} years
+            <strong>Experience:</strong> {trainer.age ? `${trainer.age} years` : "N/A"}
           </p>
-          <p className="text-gray-700 mb-4">{trainer.otherInfo}</p>
+          <div className="text-gray-700 mb-4">
+            <strong>Skills:</strong> {trainer.skills && trainer.skills.length > 0 ? trainer.skills.join(", ") : "N/A"}
+          </div>
+          <p className="text-gray-700 mb-2">
+            <strong>Available Days:</strong> {trainer.availableDays && trainer.availableDays.length > 0 ? trainer.availableDays.join(", ") : "N/A"}
+          </p>
+          <p className="text-gray-700 mb-4">
+            <strong>Available Time:</strong> {trainer.availableTime || "N/A"}
+          </p>
           <div className="flex gap-4">
             {trainer.socialIcons?.facebook && (
               <a
@@ -72,17 +80,17 @@ const Details = () => {
         {/* Available Slots Section */}
         <div className="bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Available Slots</h2>
-          {trainer.availableSlots && trainer.availableSlots.length > 0 ? (
+          {trainer.availableDays && trainer.availableDays.length > 0 ? (
             <div className="flex flex-wrap gap-2">
-              {trainer.availableSlots.map((slot, index) => (
+              {trainer.availableDays.map((day, index) => (
                 <button
                   key={index}
                   onClick={() =>
-                    navigate(`/trainer/${trainer._id}/book`, { state: { slot } })
+                    navigate(`/trainer/${trainer._id}`, { state: { day } })
                   }
                   className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
                 >
-                  {slot.day} ({slot.time})
+                  {day} ({trainer.availableTime || "N/A"})
                 </button>
               ))}
             </div>

@@ -5,6 +5,7 @@ import About from './About/About';
 import NewsLatter from './NewsLatter/NewsLatter';
 import BeATrainer from '../BeATrainer/BeATrainer';
 import { Helmet } from 'react-helmet';
+import TrainerProfile from './TrainerProfile/TrainerProfile';
 
 const Home = () => {
     return (
@@ -19,6 +20,7 @@ const Home = () => {
             <Feataured></Feataured>
             <About></About>
             <NewsLatter></NewsLatter>
+            <TrainerProfile></TrainerProfile>
             </div>
            
         </div>

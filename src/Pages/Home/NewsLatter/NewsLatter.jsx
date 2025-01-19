@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import useAuth from "../../../Hooks/UseAuth";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 import Swal from "sweetalert2";
 
 const NewsLatter = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  // const { user } = useAuth();
   const axiosSecure = UseAxiosSecure();
 
   const handleSubscribe = async (e) => {
-    e.preventDefault();  // Prevent form submission
+    e.preventDefault();
     try {
       const response = await axiosSecure.post("/newsLatter", { name, email });
       if (response.data.message) {
-       Swal.fire({
-                   position: "top-center",
-                   icon: "success",
-                   title: "NewsLatter Added Successful",
-                   showConfirmButton: false,
-                   timer: 1500,
-                 });  // Show success/error message from backend
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "NewsLatter Added Successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
-      setName(""); // Clear input fields
+      setName(""); // Reset fields
       setEmail("");
     } catch (error) {
       console.error("Error subscribing:", error);
@@ -32,37 +30,32 @@ const NewsLatter = () => {
 
   return (
     <div>
-      <section className="bg-gradient-to-r from-indigo-50 via-purple-50 to-cyan-50 py-16">
-        <div className="container mx-auto max-w-7xl px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-12">
-          {/* Left Side: Illustration */}
+      <section className="bg-gradient-to-r from-indigo-100 via-purple-200 to-cyan-100 py-20">
+        <div className="container mx-auto max-w-4xl px-6 lg:px-8 flex flex-col items-center justify-center space-y-12 lg:space-y-0 lg:flex-row lg:gap-12">
+          {/* Left Side: Image or Placeholder */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7 }}
             className="flex-1"
           >
-            <img
-              src="https://i.ibb.co/Zz4s3RM/newsletter-illustration.png"
-              alt="Newsletter Illustration"
-              className="w-full max-w-md mx-auto lg:max-w-lg"
-            />
+            {/* Add any image or icon if needed */}
           </motion.div>
 
           {/* Right Side: Form */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex-1 bg-white p-8 rounded-lg shadow-lg"
+            transition={{ duration: 0.7 }}
+            className="flex-1 bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto"
           >
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold text-indigo-800 sm:text-5xl">
-                Subscribe to Our{" "}
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-indigo-700 sm:text-4xl">
+                Join Our{" "}
                 <span className="text-cyan-600">Newsletter</span>
               </h2>
-              <p className="mt-4 text-gray-600 text-lg">
-                Stay informed with fitness tips, exclusive deals, and more. Join
-                our community today!
+              <p className="mt-4 text-gray-600 text-lg sm:text-xl">
+                Get exclusive fitness tips, updates, and exciting offers!
               </p>
             </div>
 
@@ -79,9 +72,9 @@ const NewsLatter = () => {
                   type="text"
                   id="name"
                   placeholder="Enter your name"
-                  value={name }
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
                 />
               </div>
 
@@ -97,9 +90,9 @@ const NewsLatter = () => {
                   type="email"
                   id="email"
                   placeholder="Enter your email"
-                  value={email }
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
                 />
               </div>
 
@@ -108,7 +101,7 @@ const NewsLatter = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="bg-indigo-600 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="bg-indigo-600 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
               >
                 Subscribe Now
               </motion.button>

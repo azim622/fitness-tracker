@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FcApprove } from "react-icons/fc";
-import { MdDelete } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { useQuery } from '@tanstack/react-query';
-import UseAxiosSecure from '../../../Hooks/UseAxiosSecure';
+import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 
 const AppliedTrainer = () => {
   const [appliedTrainers, setAppliedTrainers] = useState([]);
   const navigate = useNavigate();
-  const axiosSecure =UseAxiosSecure()
+  const axiosSecure = UseAxiosSecure();
 
   // Fetch applied trainers from the backend
   // useEffect(() => {
@@ -21,38 +21,76 @@ const AppliedTrainer = () => {
   // }, []);
 
   const { data: apply_trainer = [], refetch } = useQuery({
-    queryKey: ["apply_trainer" , axiosSecure],
+    queryKey: ["apply_trainer", axiosSecure],
     queryFn: async () => {
-      const res = await axiosSecure.get("/apply");
+      const res = await axiosSecure.get("/applyTrainer");
       return res.data;
     },
   });
 
   // Handle approve trainer
-  const handleApprove=async(id)=>{
-   try{
-
-    const res= await axiosSecure.patch(`/apply/${id}`)
-    const data=await res.data
-    refetch()
-
-   }
-   catch(error){
-    console.log(error)
-    
-
-   }
-
-  }
-  
+  const handleApprove = async (id) => {
+    try {
+      const res = await axiosSecure.patch(`/apply/${id}`);
+      const data = await res.data;
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: 'Trainer added successfully',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Handle reject trainer
-  const handleReject=(id)=>{
+  const handleReject = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-    console.log(id)
+         const fetchData= async()=>{
+          try{
 
-  }
-  
+            
+          
+          const res = await axiosSecure.patch(`/rejectApply/${id}`);
+          const data = await res.data;
+          console.log(data)
+          if(data.modifiedCount>0){
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+
+          }
+          
+          
+          // refetch();
+        } catch (error) {
+          console.log(error);
+        }
+
+         }
+         fetchData()
+        
+       
+      }
+    });
+    console.log(id);
+  };
 
   return (
     <div>
@@ -70,11 +108,21 @@ const AppliedTrainer = () => {
           >
             <thead>
               <tr>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">Image</th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">Name</th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">Details</th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">Approve</th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">Reject</th>
+                <th className="py-2 px-4 text-left font-medium text-gray-700">
+                  Image
+                </th>
+                <th className="py-2 px-4 text-left font-medium text-gray-700">
+                  Name
+                </th>
+                <th className="py-2 px-4 text-left font-medium text-gray-700">
+                  Details
+                </th>
+                <th className="py-2 px-4 text-left font-medium text-gray-700">
+                  Approve
+                </th>
+                <th className="py-2 px-4 text-left font-medium text-gray-700">
+                  Reject
+                </th>
               </tr>
             </thead>
             <tbody>

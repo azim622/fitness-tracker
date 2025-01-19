@@ -80,6 +80,8 @@ const AddClass = () => {
         }
     };
 
+    
+
     return (
         <div>
             <form

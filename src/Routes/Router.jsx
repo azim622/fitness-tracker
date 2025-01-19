@@ -21,6 +21,8 @@ import AllUser from "../Pages/DashBoard/AllUser/AllUser";
 import AddNewSlot from "../Layout/DashBoard/AddNewSlot/AddNewSlot";
 import AddForum from "../Pages/DashBoard/AddForum/AddForum";
 import AppliedTrainer from "../Pages/DashBoard/AppliedTrainer/AppliedTrainer";
+import BookList from "../Pages/BookList/BookList";
+import ActivityLog from "../Layout/DashBoard/ActivityLog/ActivityLog";
 
   export const router = createBrowserRouter([
     {
@@ -47,7 +49,12 @@ import AppliedTrainer from "../Pages/DashBoard/AppliedTrainer/AppliedTrainer";
         {
           path: "details/:id",
           element: <PrivetRoutes><Details /></PrivetRoutes>,
-          loader: ({ params }) => fetch(`http://localhost:5000/trainer/${params.id}`),
+          loader: ({ params }) => fetch(`http://localhost:5000/allTrainer/${params.id}`),
+        },
+        {
+          path: "trainer/:id",
+          element: <PrivetRoutes><BookList></BookList></PrivetRoutes>,
+          loader: ({ params }) => fetch(`http://localhost:5000/trainer-details/${params.id}`),
         },
       {
           path:"applyTrainer",
@@ -94,6 +101,10 @@ import AppliedTrainer from "../Pages/DashBoard/AppliedTrainer/AppliedTrainer";
         {
           path:"trainer/addSlot",
           element:<PrivetRoutes><AddNewSlot></AddNewSlot></PrivetRoutes>
+        },
+        {
+          path:"trainer/activityLog",
+          element:<PrivetRoutes><ActivityLog></ActivityLog></PrivetRoutes>
         }
       ]
     }

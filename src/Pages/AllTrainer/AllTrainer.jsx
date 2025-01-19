@@ -49,7 +49,7 @@ const AllTrainer = () => {
 
             {/* Age */}
             <p className="text-gray-700 mb-2">
-              <strong>Age:</strong> {trainer.age ? trainer.age : "Not provided"}
+              <strong>Experience:</strong> {trainer.age ? trainer.age : "Not provided"}years
             </p>
 
             {/* Details Link */}

@@ -88,10 +88,10 @@ const DashBoard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/trainer/showTrainer"
+              to="/dashboard/trainer/activityLog"
               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
             >
-              All Trainer
+              Activity log
             </NavLink>
           </li>
           <li>
