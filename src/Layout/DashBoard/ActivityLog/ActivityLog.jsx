@@ -15,6 +15,7 @@ const ActivityLog = () => {
       return res.data;
     },
   });
+  
 
   return (
     <div>
