@@ -107,8 +107,9 @@ import Community from "../Pages/Community/Community";
           path:"trainer/addSlot",
           element:<PrivetRoutes><AddNewSlot></AddNewSlot></PrivetRoutes>
         },
+        // member
         {
-          path:"trainer/activityLog",
+          path:"member/activityLog",
           element:<PrivetRoutes><ActivityLog></ActivityLog></PrivetRoutes>
         }
       ]

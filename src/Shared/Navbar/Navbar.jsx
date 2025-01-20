@@ -157,7 +157,7 @@ const Navbar = () => {
                       <Link to="/dashboard/admin/newsLatter">Dashboard</Link>:
                       isTrainer?
                       <Link to="/dashboard/trainer/addSlot">Dashboard</Link>:
-                      <Link to="/dashboard/member">Dashboard</Link>
+                      <Link to="/dashboard/member/activityLog">Dashboard</Link>
                      }
                     </li>
                     <li>
