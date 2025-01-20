@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AxiosPublic from '../../Hooks/AxiosPublic';
+import { Helmet } from 'react-helmet';
 
 const AllClass = () => {
     const [classes, setClasses] = useState([]);
@@ -35,6 +36,11 @@ const AllClass = () => {
 
     return (
         <div className="p-4">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>All Class || FitTracker</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <h1 className="text-2xl font-bold text-center mb-6">Available Fitness Classes</h1>
             <div className="mb-4 mx-auto">
                 <input

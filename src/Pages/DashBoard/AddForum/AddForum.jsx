@@ -1,49 +1,61 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { imageUpload } from '../../../api/utils'; // Assuming this is your image upload utility
 import AxiosPublic from '../../../Hooks/AxiosPublic';
-import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
 const AddForum = () => {
-  const [newPost, setNewPost] = useState({ title: '', content: '' });
+  const [isLoading, setIsLoading] = useState(false);
   const axiosPublic = AxiosPublic();
-  
-
-//   const {data: trainers=[]}=useQuery({
-//     queryKey:['trainers'],
-//     queryFn:async()=>{
-//         const res = await axiosPublic.post('/forums')
-//         return res.data 
-//     }
-// })
-
-
 
   const handlePostSubmit = async (e) => {
-    e.preventDefault()
-    const form =e.target 
-    const title=form.title.value
-    const content=form.content.value
-    const newPost = {title , content, upVote:0 , downVote:0}
-    console.log(newPost)
+    e.preventDefault();
+    const form = e.target;
+    const title = form.title.value;
+    const content = form.content.value;
+    const image = form.image.files[0];
 
-    try{
-      const res = await axiosPublic.post('/forums', newPost)
-      const data = await res.data
-      console.log(data)
-      if(data.insertedId){
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your added successfully",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-
+    if (!image) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please upload an image!',
+      });
+      return;
     }
-   catch(error){
-    console.log(error)
-   }
+
+    setIsLoading(true); // Start loading
+
+    try {
+      // Upload image and get the image URL
+      const photoURL = await imageUpload(image); // Ensure imageUpload returns a valid URL
+
+      // Creating the post object
+      const newPost = { title, content, image, photoURL, upVote: 0, downVote: 0 };
+
+      // Submit the new post
+      const res = await axiosPublic.post('/forums', newPost);
+      const data = res.data;
+
+      if (data.insertedId) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your forum post was added successfully!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        form.reset(); // Reset form after successful submission
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'There was an issue adding the forum post.',
+      });
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
   };
 
   return (
@@ -59,9 +71,20 @@ const AddForum = () => {
             type="text"
             id="title"
             name="title"
-            // value={newPost.title}
             placeholder="Enter forum title"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        {/* Forum Image */}
+        <div className="relative mb-4">
+          <input
+            type="file"
+            id="image"
+            name="image"
+            placeholder="Forum Image"
+            className="w-full h-10 px-4 text-sm border rounded"
             required
           />
         </div>
@@ -74,7 +97,6 @@ const AddForum = () => {
           <textarea
             id="content"
             name="content"
-            // value={newPost.content}
             placeholder="Write your forum content..."
             rows="6"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -87,8 +109,9 @@ const AddForum = () => {
           <button
             type="submit"
             className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+            disabled={isLoading}
           >
-            Submit Forum Post
+            {isLoading ? 'Submitting...' : 'Submit Forum Post'}
           </button>
         </div>
       </form>
