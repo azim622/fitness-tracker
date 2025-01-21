@@ -7,8 +7,12 @@ import NewsLatter from './NewsLatter/NewsLatter';
 import BeATrainer from '../BeATrainer/BeATrainer';
 import { Helmet } from 'react-helmet';
 import TrainerProfile from './TrainerProfile/TrainerProfile';
+import UseAdmin from '../../Hooks/UseAdmin';
+
 
 const Home = () => {
+    const [users]= UseAdmin()
+    console.log(users)
     return (
         <div>
              <Helmet>

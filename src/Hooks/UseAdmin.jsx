@@ -11,7 +11,7 @@ const UseAdmin = () => {
         queryFn: async()=>{
             const res = await axiosPublic.get(`/users/${user.email}`)
             console.log(res.data)
-            return res.data
+            return res.data;
         }
 
     })

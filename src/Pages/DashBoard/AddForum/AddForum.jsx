@@ -1,11 +1,30 @@
-import { useState } from 'react';
-import { imageUpload } from '../../../api/utils'; // Assuming this is your image upload utility
-import AxiosPublic from '../../../Hooks/AxiosPublic';
-import Swal from 'sweetalert2';
+import { useEffect, useState } from "react";
+import { imageUpload } from "../../../api/utils"; // Assuming this is your image upload utility
+import AxiosPublic from "../../../Hooks/AxiosPublic";
+import Swal from "sweetalert2";
+import useAuth from "../../../Hooks/UseAuth";
 
 const AddForum = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [userRole, setUserRole] = useState({});
+  console.log(userRole)
   const axiosPublic = AxiosPublic();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (user.email) {
+          const res = await axiosPublic.get(`/badge?email=${user.email}`);
+          const data = await res.data;
+          setUserRole(data)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [user.email]);
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -16,9 +35,9 @@ const AddForum = () => {
 
     if (!image) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Please upload an image!',
+        icon: "error",
+        title: "Error",
+        text: "Please upload an image!",
       });
       return;
     }
@@ -30,17 +49,26 @@ const AddForum = () => {
       const photoURL = await imageUpload(image); // Ensure imageUpload returns a valid URL
 
       // Creating the post object
-      const newPost = { title, content, image, photoURL, upVote: 0, downVote: 0 };
+      const newPost = {
+        title,
+        content,
+        image,
+        photoURL,
+        upVote: 0,
+        downVote: 0,
+        badge:userRole.role
+      };
+      console.log(newPost)
 
       // Submit the new post
-      const res = await axiosPublic.post('/forums', newPost);
+      const res = await axiosPublic.post("/forums", newPost);
       const data = res.data;
 
       if (data.insertedId) {
         Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Your forum post was added successfully!',
+          position: "top-end",
+          icon: "success",
+          title: "Your forum post was added successfully!",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -49,9 +77,9 @@ const AddForum = () => {
     } catch (error) {
       console.error(error);
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'There was an issue adding the forum post.',
+        icon: "error",
+        title: "Error",
+        text: "There was an issue adding the forum post.",
       });
     } finally {
       setIsLoading(false); // Stop loading
@@ -60,7 +88,9 @@ const AddForum = () => {
 
   return (
     <div className="max-w-lg mx-auto p-6 border rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center mb-6">Add New Forum Post</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">
+        Add New Forum Post
+      </h2>
       <form onSubmit={handlePostSubmit}>
         {/* Forum Title */}
         <div className="mb-4">
@@ -111,7 +141,7 @@ const AddForum = () => {
             className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
             disabled={isLoading}
           >
-            {isLoading ? 'Submitting...' : 'Submit Forum Post'}
+            {isLoading ? "Submitting..." : "Submit Forum Post"}
           </button>
         </div>
       </form>

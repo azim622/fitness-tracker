@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiFillDislike, AiFillLike } from "react-icons/ai";
+import { AiFillAlert, AiFillAlipaySquare, AiFillDislike, AiFillLike } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import { Helmet } from "react-helmet";
@@ -90,8 +90,10 @@ const Community = () => {
               </button>
             </div>
 
-            <p className="mt-6 text-sm text-gray-500">
-              Posted by: {forum?.authorName || "Unknown"}
+            <p className="mt-6 flex text-sm text-gray-500">
+              Posted by: {forum?.badge || "Unknown"}
+              <span>{forum.badge==="admin"?<AiFillAlert></AiFillAlert>:
+              <AiFillAlipaySquare></AiFillAlipaySquare>}</span>
             </p>
           </div>
         ))}
