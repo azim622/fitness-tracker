@@ -4,22 +4,23 @@ import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import { Helmet } from "react-helmet";
 import useAuth from "../../Hooks/UseAuth";
+import AxiosPublic from "../../Hooks/AxiosPublic";
 
 const Community = () => {
-  const axiosSecure = UseAxiosSecure();
+  const axiosPublic = AxiosPublic();
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data: forumData, refetch } = useQuery({
     queryKey: ["forums", currentPage],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/forums?page=${currentPage}&limit=6`);
+      const res = await axiosPublic.get(`/forums?page=${currentPage}&limit=6`);
       return res.data;
     },
     keepPreviousData: true, // Keep previous data while fetching new page
   });
 
   const handleLike = async (id) => {
-    const res = await axiosSecure.patch(`/increase-upvote/${id}`);
+    const res = await axiosPublic.patch(`/increase-upvote/${id}`);
     const data = res.data;
     if (data.modifiedCount > 0) {
       refetch();
@@ -27,7 +28,7 @@ const Community = () => {
   };
 
   const handleDislike = async (id) => {
-    const res = await axiosSecure.patch(`/increase-downVote/${id}`);
+    const res = await axiosPublic.patch(`/increase-downVote/${id}`);
     const data = res.data;
     if (data.modifiedCount > 0) {
       refetch();

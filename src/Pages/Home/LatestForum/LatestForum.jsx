@@ -1,6 +1,7 @@
 import React from 'react';
 import UseAxiosSecure from '../../../Hooks/UseAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 const LatestForum = () => {
     const axiosSecure = UseAxiosSecure();
@@ -21,7 +22,8 @@ const LatestForum = () => {
             <h3 className="text-center text-4xl font-bold mb-8 text-gray-800">Latest Forum</h3>
 
             {/* Display Posts */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+           <Link to="/community">
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {forumData?.forums?.map((forum) => (
                     <div
                         key={forum._id}
@@ -44,6 +46,7 @@ const LatestForum = () => {
                     </div>
                 ))}
             </div>
+           </Link>
         </div>
     );
 };

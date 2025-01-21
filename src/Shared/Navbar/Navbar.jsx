@@ -1,15 +1,33 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthPRovider";
+import AxiosPublic from "../../Hooks/AxiosPublic";
 
 const Navbar = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut, role, setRole } = useContext(AuthContext);
 
-  const isAdmin=false
-  const isTrainer= true
-  const isMember =false
+  const axiosPublic = AxiosPublic();
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      try {
+        if (user?.email) {
+          const response = await axiosPublic.get(`/getRole/${user.email}`);
+          if (response.data?.length > 0) {
+            setRole(response.data[0]?.role);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch role:", error);
+        setRole(null);
+      }
+    };
+
+    if (user) fetchRole();
+  }, [user, axiosPublic]);
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (!event.target.closest("#avatar-dropdown")) {
@@ -23,175 +41,145 @@ const Navbar = () => {
   const handleLogOut = () => {
     logOut()
       .then(() => {})
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
+
   return (
-    <div>
-      <header className=" sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 shadow-lg shadow-slate-700/5 after:absolute after:left-0 after:top-full after:z-10 after:block after:h-px after:w-full after:bg-slate-200 lg:border-slate-200 lg:backdrop-blur-sm lg:after:hidden">
-        <div className="relative mx-auto max-w-full px-6 lg:max-w-5xl xl:max-w-7xl 2xl:max-w-[96rem]">
-          <nav
-            aria-label="main navigation"
-            className="flex h-[5.5rem] items-stretch justify-between font-medium text-slate-700"
-            role="navigation"
+    <header className="sticky top-0 z-50 w-full bg-white shadow-lg">
+      <div className="relative mx-auto max-w-7xl px-6">
+        <nav
+          aria-label="main navigation"
+          className="flex h-16 items-center justify-between"
+        >
+          {/* Brand Logo */}
+          <div className="flex items-center gap-3">
+            <img
+              src="https://i.ibb.co/7KnHbLm/DALL-E-2025-01-14-00-00-08-A-modern-and-minimalist-logo-design-for-a-brand-named-Fitness-Tracker-The.webp"
+              alt="Fitness Tracker Logo"
+              className="h-12 w-12 rounded-full"
+            />
+            <h2 className="text-xl font-bold text-gray-700">Fitness Tracker</h2>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className={`lg:hidden relative h-10 w-10 focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
+              isToggleOpen ? "open" : ""
+            }`}
+            onClick={() => setIsToggleOpen(!isToggleOpen)}
+            aria-label="Toggle navigation"
           >
-            {/*      <!-- Brand logo --> */}
-            <div className="flex items-center gap-3">
-              <img
-                src="https://i.ibb.co.com/7KnHbLm/DALL-E-2025-01-14-00-00-08-A-modern-and-minimalist-logo-design-for-a-brand-named-Fitness-Tracker-The.webp"
-                alt="Fitness Tracker Logo"
-                className="h-12 w-12 object-cover rounded-full"
-              />
-              <h2 className="text-xl font-bold text-slate-700">
-                Fitness Tracker
-              </h2>
+            <div className="absolute inset-0 flex flex-col justify-center space-y-1.5">
+              <span
+                className={`h-0.5 w-full bg-gray-900 transition-transform duration-300 ${
+                  isToggleOpen ? "translate-y-1.5 rotate-45" : ""
+                }`}
+              ></span>
+              <span
+                className={`h-0.5 w-full bg-gray-900 transition-opacity duration-300 ${
+                  isToggleOpen ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                className={`h-0.5 w-full bg-gray-900 transition-transform duration-300 ${
+                  isToggleOpen ? "-translate-y-1.5 -rotate-45" : ""
+                }`}
+              ></span>
             </div>
-            {/*      <!-- Mobile trigger --> */}
-            <button
-              className={`relative order-10 block h-10 w-10 self-center lg:hidden
-            ${
-              isToggleOpen
-                ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(2)]:-rotate-45 [&_span:nth-child(3)]:w-0 "
-                : ""
-            }
-          `}
-              onClick={() => setIsToggleOpen(!isToggleOpen)}
-              aria-expanded={isToggleOpen ? "true" : "false"}
-              aria-label="Toggle navigation"
-            >
-              <div className="absolute left-1/2 top-1/2 w-6 -translate-x-1/2 -translate-y-1/2 transform">
-                <span
-                  aria-hidden="true"
-                  className="absolute block h-0.5 w-9/12 -translate-y-2 transform rounded-full bg-slate-900 transition-all duration-300"
-                ></span>
-                <span
-                  aria-hidden="true"
-                  className="absolute block h-0.5 w-6 transform rounded-full bg-slate-900 transition duration-300"
-                ></span>
-                <span
-                  aria-hidden="true"
-                  className="absolute block h-0.5 w-1/2 origin-top-left translate-y-2 transform rounded-full bg-slate-900 transition-all duration-300"
-                ></span>
-              </div>
-            </button>
-            {/*      <!-- Navigation links --> */}
-            <ul
-              role="menubar"
-              aria-label="Select page"
-              className={`absolute left-0 top-0 z-[-1] h-[28.5rem] w-full justify-center overflow-hidden  overflow-y-auto overscroll-contain bg-white/90 px-8 pb-12 pt-24 font-medium transition-[opacity,visibility] duration-300 lg:visible lg:relative lg:top-0  lg:z-0 lg:flex lg:h-full lg:w-auto lg:items-stretch lg:overflow-visible lg:bg-white/0 lg:px-0 lg:py-0  lg:pt-0 lg:opacity-100 ${
-                isToggleOpen
-                  ? "visible opacity-100 backdrop-blur-sm"
-                  : "invisible opacity-0"
-              }`}
-            >
-              <li role="none" className="flex items-stretch">
-                <Link
-                  to="/"
-                  role="menuitem"
-                  aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
-                >
-                  Home
-                </Link>
-              </li>
-              <li role="none" className="flex items-stretch">
-                <Link
-                  to="/allTrainer"
-                  role="menuitem"
-                  aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
-                >
-                  All Trainer
-                </Link>
-              </li>
-              <li role="none" className="flex items-stretch">
-                <Link
-                  to="/allClass"
-                  role="menuitem"
-                  aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
-                >
-                  All Class
-                </Link>
-              </li>
-              <li role="none" className="flex items-stretch">
-                <Link
-                  to="/community"
-                  role="menuitem"
-                  aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
-                >
-                  Community
-                </Link>
-              </li>
+          </button>
 
-             
-            </ul>
-            <div className="ml-auto flex items-center px-6 lg:ml-0 lg:p-0">
-              {/*        <!-- Avatar --> */}
-              <div
-                id="avatar-dropdown"
-                className="relative ml-auto flex items-center px-6 lg:ml-0 lg:p-0"
+          {/* Navigation Links */}
+          <ul
+            className={`absolute left-0 top-16 w-full bg-white p-6 text-center shadow-lg lg:relative lg:top-0 lg:flex lg:w-auto lg:items-center lg:space-x-8 lg:p-0 lg:shadow-none ${
+              isToggleOpen ? "block" : "hidden"
+            }`}
+          >
+            <li>
+              <Link
+                to="/"
+                className="block py-2 text-gray-700 hover:text-emerald-500"
               >
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white"
-                >
-                  <img 
-                    src={user?.photoURL}
-                    alt="User Avatar"
-                    title={user?.displayName}
-                    className="max-w-full rounded-full"
-                  />
-                </button>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/allTrainer"
+                className="block py-2 text-gray-700 hover:text-emerald-500"
+              >
+                All Trainer
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/allClass"
+                className="block py-2 text-gray-700 hover:text-emerald-500"
+              >
+                All Class
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/community"
+                className="block py-2 text-gray-700 hover:text-emerald-500"
+              >
+                Community
+              </Link>
+            </li>
+          </ul>
 
-                {/* Dropdown Menu */}
-                {isDropdownOpen && (
-                  <ul className="absolute right-0 -mb-28 w-40 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <li>
-                     {
-                      isAdmin?
-                      <Link to="/dashboard/admin/newsLatter">Dashboard</Link>:
-                      isTrainer?
-                      <Link to="/dashboard/trainer/addSlot">Dashboard</Link>:
-                      <Link to="/dashboard/member/activityLog">Dashboard</Link>
-                     }
-                    </li>
-                    <li>
-                      {user ? (
-                        <>
-                          <Link
-                            to="/login"
-                            onClick={handleLogOut}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            LogOut
-                          </Link>
-                        </>
-                      ) : (
-                        <>
-                          <Link
-                            to="/login"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            {" "}
-                            Login
-                          </Link>
-                        </>
-                      )}
-                    </li>
-                  </ul>
-                )}
-              </div>
-              {/*        <!-- End Avatar --> */}
-            </div>
-          </nav>
-        </div>
-      </header>
-    </div>
+          {/* User Avatar and Dropdown */}
+          <div id="avatar-dropdown" className="relative">
+            {user ? (
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="h-10 w-10 rounded-full border border-gray-300"
+              >
+                <img
+                  src={user.photoURL || "https://via.placeholder.com/40"}
+                  alt="User Avatar"
+                  className="h-full w-full rounded-full object-cover"
+                />
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="py-2 px-4 text-gray-700 hover:text-emerald-500"
+              >
+                Login
+              </Link>
+            )}
+
+            {isDropdownOpen && (
+              <ul className="absolute right-0 mt-2 w-40 rounded-md bg-white shadow-lg">
+                <li className="border-b">
+                  <Link
+                    to={
+                      role === "admin"
+                        ? "/dashboard/admin/newsLatter"
+                        : role === "trainer"
+                        ? "/dashboard/trainer/addSlot"
+                        : "/dashboard/member/activityLog"
+                    }
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogOut}
+                    className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+                  >
+                    Log Out
+                  </button>
+                </li>
+              </ul>
+            )}
+          </div>
+        </nav>
+      </div>
+    </header>
   );
 };
 

@@ -24,6 +24,7 @@ import AppliedTrainer from "../Pages/DashBoard/AppliedTrainer/AppliedTrainer";
 import BookList from "../Pages/BookList/BookList";
 import ActivityLog from "../Layout/DashBoard/ActivityLog/ActivityLog";
 import Community from "../Pages/Community/Community";
+import ProfilePage from "../Layout/DashBoard/ProfilePgae/ProfilePage";
 
   export const router = createBrowserRouter([
     {
@@ -111,6 +112,10 @@ import Community from "../Pages/Community/Community";
         {
           path:"member/activityLog",
           element:<PrivetRoutes><ActivityLog></ActivityLog></PrivetRoutes>
+        },
+        {
+          path:"member/profilePage",
+          element:<PrivetRoutes><ProfilePage></ProfilePage></PrivetRoutes>
         }
       ]
     }

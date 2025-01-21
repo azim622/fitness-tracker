@@ -7,13 +7,20 @@ const AddNewSlot = () => {
   const axiosSecure = UseAxiosSecure();
 
   // Fetch classes using react-query
-  const { data: classes, isLoading, error } = useQuery({
+  const { data: classes=[], isLoading, error } = useQuery({
     queryKey: ["classes"],
     queryFn: async () => {
       const res = await axiosSecure.get("/addClass");
       return res.data; // Assuming the response contains an array of classes
     },
   });
+  // const { data: trainer  } = useQuery({
+  //   queryKey: ["classes"],
+  //   queryFn: async () => {
+  //     const res = await axiosSecure.get(`/apply?email=${user.email}`);
+  //     return res.data; // Assuming the response contains an array of classes
+  //   },
+  // });
 
   
 
@@ -167,14 +174,7 @@ const AddNewSlot = () => {
       </form>
 
       {/* Search Bar */}
-      <div className="mb-4 mx-auto">
-        <input
-          type="text"
-          placeholder="Search for a class..."
-          onChange={handleSearch}
-          className="border rounded-lg px-4 py-2 w-1/2"
-        />
-      </div>
+      
 
       {/* Display Classes */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

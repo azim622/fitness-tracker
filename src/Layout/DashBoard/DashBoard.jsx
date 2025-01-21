@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import UseAdmin from "../../Hooks/UseAdmin";
-import UseTrainer from "../../Hooks/UseTrainer";
+import useAuth from "../../Hooks/UseAuth";
 
 const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isAdmin] = UseAdmin();
-  const [isTrainer] = UseTrainer();
+  const { role } = useAuth();
 
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 z-50 h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:relative w-48 md:w-64 shadow-xl`}
+        className={`fixed top-0 left-0 z-50 h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:relative w-48 md:w-64 shadow-xl`}
       >
         <div className="p-4">
-          <h2 className="text-white text-xl font-bold">Fitness Tracker Dashboard</h2>
+          <h2 className="text-white text-xl font-bold">
+            Fitness Tracker Dashboard
+          </h2>
         </div>
         <div className="flex justify-between items-center px-4 py-3 bg-indigo-600 md:hidden">
           <h2 className="text-white text-lg font-bold">Dashboard</h2>
@@ -28,134 +30,123 @@ const DashBoard = () => {
         </div>
 
         {/* Sidebar Menu */}
-        {isAdmin ? (
-          <ul className="menu mt-8 px-4 text-white space-y-4">
-            <li>
-              <NavLink
-                to="/dashboard/admin/newsLatter"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Newsletter Subscriber
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/admin/showTrainer"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                All Trainers
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/admin/addClass"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Add Class
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/admin/applyTrainer"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Applied Trainers
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/admin/users"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                All Users
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/admin/addForum"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Add Forum
-              </NavLink>
-            </li>
-            <div className="divider border-t border-white mt-4"></div>
-          </ul>
-        ) : isTrainer ? (
-          <ul className="menu mt-8 px-4 text-white space-y-4">
-            <li>
-              <NavLink
-                to="/dashboard/trainer/addSlot"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Add New Slot
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/admin/addForum"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Add Forum
-              </NavLink>
-            </li>
-            
-            <li>
-              <NavLink
-                to="/dashboard/trainer/addClass"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Add Class
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/trainer/users"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                All Users
-              </NavLink>
-            </li>
-            <div className="divider border-t border-white mt-4"></div>
-          </ul>
-        ) : (
-          <ul className="menu mt-8 px-4 text-white space-y-4">
-            <li>
-              <NavLink
-                to="/dashboard/member/activityLog"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Activity Log
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/trainer/addSlot"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                Add New Slot
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/member/myActivities"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                My Activities
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/member/mySubscriptions"
-                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-              >
-                My Subscriptions
-              </NavLink>
-            </li>
-            <div className="divider border-t border-white mt-4"></div>
-          </ul>
-        )}
-
-        <ul className="menu mt-4 px-4 text-white space-y-4">
+        <ul className="menu mt-8 px-4 text-white space-y-4">
+          {role === "admin" && (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/newsLatter"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Newsletter Subscriber
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/showTrainer"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  All Trainers
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/addClass"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Add Class
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/applyTrainer"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Applied Trainers
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/users"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  All Users
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/addForum"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Add Forum
+                </NavLink>
+              </li>
+            </>
+          )}
+          {role === "trainer" && (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/trainer/addSlot"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Add New Slot
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin/addForum"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Add Forum
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/trainer/addClass"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Add Class
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/trainer/users"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  All Users
+                </NavLink>
+              </li>
+            </>
+          )}
+          {role === "member" && (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/member/activityLog"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Activity Log
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/member/myActivities"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  My Activities
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/member/profilePage"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  My Profile
+                </NavLink>
+              </li>
+            </>
+          )}
           <li>
             <NavLink
               to="/"

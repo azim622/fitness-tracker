@@ -19,6 +19,7 @@ const ActivityLog = () => {
 
   return (
     <div>
+      <h2 className='text-center text-3xl font-bold my-8'>Activity Log</h2>
       <h2 className="text-xl font-bold mb-4">Trainers for {user.email}</h2>
       <table border="1" cellPadding="10" className="w-full border-collapse">
         <thead>
