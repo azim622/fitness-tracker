@@ -46,6 +46,7 @@ const AllUser = () => {
 
   // Handle making a user a trainer or admin
   const handleRoleChange = (user, newRole) => {
+    console.log(newRole)
     if (user.role === newRole) {
       Swal.fire("Info", `${user.name} is already a ${newRole}!`, "info");
       return;

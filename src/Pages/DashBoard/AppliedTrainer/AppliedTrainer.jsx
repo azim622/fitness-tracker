@@ -14,7 +14,7 @@ const AppliedTrainer = () => {
 
   // Fetch applied trainers from the backend
   // useEffect(() => {
-  //   fetch('http://localhost:5000/apply') // Update with the actual backend URL
+  //   fetch('https://fitness-tracker-server-orcin.vercel.app/apply') // Update with the actual backend URL
   //     .then((response) => response.json())
   //     .then((data) => setAppliedTrainers(data))
   //     .catch((error) => console.error('Error fetching trainers:', error));

@@ -48,21 +48,21 @@ import Payment from "../Pages/Payment/Payment";
         },
         {
             path:'allTrainer',
-            element:<PrivetRoutes><AllTrainer></AllTrainer></PrivetRoutes>
+            element:<AllTrainer></AllTrainer>
         },
         {
           path: "details/:id",
-          element: <PrivetRoutes><Details /></PrivetRoutes>,
-          loader: ({ params }) => fetch(`http://localhost:5000/allTrainer/${params.id}`),
+          element: <Details />,
+          loader: ({ params }) => fetch(`https://fitness-tracker-server-orcin.vercel.app/allTrainer/${params.id}`),
         },
         {
           path: "trainer/:id",
           element: <PrivetRoutes><BookList></BookList></PrivetRoutes>,
-          loader: ({ params }) => fetch(`http://localhost:5000/trainer-details/${params.id}`),
+          loader: ({ params }) => fetch(`https://fitness-tracker-server-orcin.vercel.app/trainer-details/${params.id}`),
         },
       {
           path:"applyTrainer",
-          element:<BeATrainer></BeATrainer>
+          element:<PrivetRoutes><BeATrainer></BeATrainer></PrivetRoutes>
         },
         {
           path:"allClass",

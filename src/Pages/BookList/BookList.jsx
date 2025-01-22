@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import AxiosPublic from "../../Hooks/AxiosPublic";
 
 const TrainerBookedPage = () => {
