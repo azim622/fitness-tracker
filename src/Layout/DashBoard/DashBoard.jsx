@@ -95,28 +95,22 @@ const DashBoard = () => {
               </li>
               <li>
                 <NavLink
+                  to="/dashboard/trainer/manageSlot"
+                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+                >
+                  Manage Slot
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   to="/dashboard/admin/addForum"
                   className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
                 >
                   Add Forum
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/dashboard/trainer/addClass"
-                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-                >
-                  Add Class
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/trainer/users"
-                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-                >
-                  All Users
-                </NavLink>
-              </li>
+             
+             
             </>
           )}
           {role === "member" && (

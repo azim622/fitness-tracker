@@ -54,15 +54,8 @@ const AddNewSlot = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // const newSlot = {
-    //   slotName,
-    //   slotTime,
-    //   selectedDays: selectedDays.map((day) => day.value), // Extract values from selectedDays
-    //   selectedClass:selectedClass.label,
-    //   additionalInfo,
-    //   trainerEmail: userEmail,
-    // };
+  
+    // Construct the data to post
     const newSlot = {
       slotName,
       slotTime,
@@ -70,21 +63,33 @@ const AddNewSlot = () => {
       selectedClass: selectedClass?.label || "No Class Selected", // Extract the label from selectedClass
       additionalInfo,
       trainerEmail: userEmail,
+      trainerDetails: trainers.map((trainer) => ({
+        fullName: trainer.fullName || "N/A",
+        email: trainer.email || "N/A",
+        availableTime: trainer.availableTime || "N/A",
+        availableDays: trainer.availableDays || [],
+        profileImage: trainer.profileImage || "",
+      })),
     };
-
-    console.log(newSlot)
-    // try {
-    //   const response = await axiosSecure.post("/addNewSlot", newSlot);
-    //   if (response.status === 200) {
-    //     alert("New slot added successfully!"); // Replace with toast or sweet alert if preferred
-    //   } else {
-    //     alert("Failed to add new slot.");
-    //   }
-    // } catch (error) {
-    //   console.error("Error adding new slot:", error);
-    //   alert("An error occurred. Please try again.");
-    // }
+  
+    console.log("Data to be posted:", newSlot);
+  
+    try {
+      // Post the data to the API
+      const response = await axiosSecure.post("/addNewSlot", newSlot);
+  
+      // Check response and handle success or failure
+      if (response.status === 200) {
+        alert("New slot added successfully!"); // Replace with a toast or sweet alert if preferred
+      } else {
+        alert("Failed to add new slot. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error adding new slot:", error);
+      alert("An error occurred while adding the slot. Please try again.");
+    }
   };
+  
 
   if (isLoading || isTrainerLoading) return <p>Loading data...</p>;
   if (error) return <p>Error loading classes: {error.message}</p>;

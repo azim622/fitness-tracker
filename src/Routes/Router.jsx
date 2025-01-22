@@ -23,8 +23,10 @@ import AddForum from "../Pages/DashBoard/AddForum/AddForum";
 import AppliedTrainer from "../Pages/DashBoard/AppliedTrainer/AppliedTrainer";
 import BookList from "../Pages/BookList/BookList";
 import ActivityLog from "../Layout/DashBoard/ActivityLog/ActivityLog";
+import ManageSlot from "../Layout/DashBoard/ManageSlot/ManageSlot";
 import Community from "../Pages/Community/Community";
 import ProfilePage from "../Layout/DashBoard/ProfilePgae/ProfilePage";
+import Payment from "../Pages/Payment/Payment";
 
   export const router = createBrowserRouter([
     {
@@ -69,6 +71,10 @@ import ProfilePage from "../Layout/DashBoard/ProfilePgae/ProfilePage";
         {
           path:"community",
           element:<Community></Community>
+        },
+        {
+          path:"payment",
+          element:<Payment></Payment>
         }
         
       ]
@@ -107,6 +113,10 @@ import ProfilePage from "../Layout/DashBoard/ProfilePgae/ProfilePage";
         {
           path:"trainer/addSlot",
           element:<PrivetRoutes><AddNewSlot></AddNewSlot></PrivetRoutes>
+        },
+        {
+          path:"trainer/manageSlot",
+          element:<PrivetRoutes><ManageSlot></ManageSlot></PrivetRoutes>
         },
         // member
         {
