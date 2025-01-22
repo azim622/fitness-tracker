@@ -1,96 +1,165 @@
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import React, { useEffect, useState } from 'react';
+import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
+import useAuth from '../../Hooks/UseAuth';
+import Swal from 'sweetalert2';
 
-const CheckOutForm = ({ selectedPackage, trainerInfo, userInfo }) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [error, setError] = useState("");
-  const [transactionId, setTransactionId] = useState("");
+const CheckOutForm = ({ selectedPackage }) => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [error, setError] = useState('');
+    const [clientSecret, setClientSecret] = useState('');
+    const [transactionId, setTransactionId] = useState('');
+    const axiosSecure = UseAxiosSecure();
+    const { user } = useAuth();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    const totalPrice = selectedPackage?.price || 0; // Fallback to 0 if selectedPackage or price is undefined
 
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const card = elements.getElement(CardElement);
-
-    if (!card) {
-      return;
-    }
-
-    // Create payment method
-    const { error: paymentError, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card,
-    });
-
-    if (paymentError) {
-      setError(paymentError.message);
-      return;
-    } else {
-      setError("");
-    }
-
-    // Confirm payment
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(selectedPackage.clientSecret, {
-      payment_method: paymentMethod.id,
-    });
-
-    if (confirmError) {
-      setError(confirmError.message);
-      return;
-    } else if (paymentIntent.status === "succeeded") {
-      setTransactionId(paymentIntent.id);
-
-      // Prepare payment data
-      const paymentData = {
-        email: userInfo.email,
-        trainerName: trainerInfo.fullName,
-        slotName: trainerInfo.slotName,
-        packageName: selectedPackage.name,
-        price: selectedPackage.price,
-        transactionId: paymentIntent.id,
-        date: new Date(),
-      };
-
-      // Post payment data to the server
-      try {
-        const response = await axios.post("/api/payments", paymentData);
-        if (response.data.success) {
-          Swal.fire("Success", "Payment successful and booking count updated!", "success");
+    useEffect(() => {
+        if (totalPrice > 0) {
+            axiosSecure
+                .post('/create-payment-intent', { price: totalPrice })
+                .then((res) => {
+                    setClientSecret(res.data.clientSecret);
+                })
+                .catch((err) => {
+                    console.error('Error creating payment intent:', err);
+                    setError('Failed to initialize payment. Please try again later.');
+                });
         }
-      } catch (error) {
-        console.error("Error saving payment:", error);
-        Swal.fire("Error", "Failed to save payment information.", "error");
-      }
-    }
-  };
+    }, [axiosSecure, totalPrice]);
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <CardElement
-        options={{
-          style: {
-            base: {
-              fontSize: "16px",
-              color: "#424770",
-              "::placeholder": { color: "#aab7c4" },
-            },
-            invalid: { color: "#9e2146" },
-          },
-        }}
-      />
-      <button type="submit" disabled={!stripe} className="btn bg-blue-600 text-white rounded-lg p-2 mt-4">
-        Pay ${selectedPackage.price}
-      </button>
-      {error && <p className="text-red-600 mt-2">{error}</p>}
-      {transactionId && <p className="text-green-600 mt-2">Transaction ID: {transactionId}</p>}
-    </form>
-  );
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!stripe || !elements || !clientSecret) {
+            setError('Payment is not ready. Please try again later.');
+            return;
+        }
+
+        const card = elements.getElement(CardElement);
+
+        if (!card) {
+            setError('Card element is not found.');
+            return;
+        }
+
+        setError(''); // Clear previous errors
+
+        try {
+            // Create a payment method
+            const {paymentMethod, error: paymentMethodError } = await stripe.createPaymentMethod({
+                type: 'card',
+                card,
+                billing_details: {
+                    email: user?.email || 'anonymous',
+                    name: user?.displayName || 'anonymous',
+                },
+            });
+            if(paymentMethod){
+                console.log('payment mathode', paymentMethod)
+            }
+
+            if (paymentMethodError) {
+                setError(paymentMethodError.message);
+                return;
+            }
+
+            // Confirm card payment
+            const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        email: user?.email || 'anonymous',
+                        name: user?.displayName || 'anonymous',
+                    },
+                },
+            });
+            if(paymentIntent){
+                console.log('confirm card int', paymentIntent)
+            }
+
+            if (confirmError) {
+                setError(confirmError.message);
+                return;
+            }
+
+            // Successful payment
+            if (paymentIntent.status === 'succeeded') {
+                setTransactionId(paymentIntent.id);
+
+                // Save payment details to the backend
+                const paymentDetails = {
+                    email: user?.email,
+                    packageName: selectedPackage?.name,
+                    price: totalPrice,
+                    moneyTransactionId: transactionId,
+                    date: new Date(),
+                };
+                console.log("payment details", paymentDetails)
+
+                const paymentData=async()=>{
+                    try{
+                        const res= await axiosSecure.post('/payments', paymentDetails);
+                        const data =await res.data
+                        console.log(data)
+
+                    }
+                    catch(error){
+                        console.log(error)
+
+                    }
+
+                }
+                paymentData()
+
+                // await axiosSecure.post('/payments', paymentDetails);
+
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Payment successful!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        } catch (error) {
+            console.error('Payment error:', error);
+            setError('An unexpected error occurred. Please try again.');
+        }
+    };
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <CardElement
+                    options={{
+                        style: {
+                            base: {
+                                fontSize: '16px',
+                                color: '#424770',
+                                '::placeholder': {
+                                    color: '#aab7c4',
+                                },
+                            },
+                            invalid: {
+                                color: '#9e2146',
+                            },
+                        },
+                    }}
+                />
+                <button
+                    className="btn bg-blue-600 rounded-lg p-2 btn-sm btn-primary my-4"
+                    type="submit"
+                    disabled={!stripe || !clientSecret}
+                >
+                    Pay ${totalPrice.toFixed(2)}
+                </button>
+                {error && <p className="text-red-600">{error}</p>}
+                {transactionId && <p className="text-green-600">Your transaction ID: {transactionId}</p>}
+            </form>
+        </div>
+    );
 };
 
 export default CheckOutForm;

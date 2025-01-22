@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { AiFillAlert, AiFillAlipaySquare, AiFillDislike, AiFillLike } from "react-icons/ai";
+import { RiAdminFill } from "react-icons/ri";
+import { TbFileLike } from "react-icons/tb";
+import {
+  AiFillDislike,
+  AiFillLike,
+} from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import { Helmet } from "react-helmet";
@@ -90,10 +95,13 @@ const Community = () => {
               </button>
             </div>
 
-            <p className="mt-6 flex text-sm text-gray-500">
+            <p className="mt-6 flex items-center text-sm text-gray-500">
               Posted by: {forum?.badge || "Unknown"}
-              <span>{forum.badge==="admin"?<AiFillAlert></AiFillAlert>:
-              <AiFillAlipaySquare></AiFillAlipaySquare>}</span>
+              {forum?.badge === "admin" ? (
+                <TbFileLike  size={20} className="ml-2 text-red-500" />
+              ) : forum?.badge === "trainer" ? (
+                <RiAdminFill size={20} className="ml-2 text-blue-500" />
+              ) : null}
             </p>
           </div>
         ))}

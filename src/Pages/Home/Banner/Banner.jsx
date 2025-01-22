@@ -53,7 +53,7 @@ const Banner = () => {
         {/* Slide 3 */}
         <div className="relative">
           <img 
-            src="https://i.ibb.co.com/RSzN7YW/premium-photo-1670505062582-fdaa83c23c9e.jpg" 
+            src="https://i.ibb.co.com/9pK85PR/DALL-E-2025-01-14-00-31-16-A-vibrant-and-dynamic-fitness-tracker-website-banner-image-featuring-an-a.webp" 
             className="w-full h-96 object-cover"
             alt="Fitness Gym"
           />
@@ -91,7 +91,7 @@ const Banner = () => {
         {/* Slide 5 */}
         <div className="relative">
           <img 
-            src="https://i.ibb.co.com/9pK85PR/DALL-E-2025-01-14-00-31-16-A-vibrant-and-dynamic-fitness-tracker-website-banner-image-featuring-an-a.webp" 
+            src="https://i.ibb.co.com/RSzN7YW/premium-photo-1670505062582-fdaa83c23c9e.jpg" 
             className="w-full h-96 object-cover"
             alt="Fitness Tracker"
           />

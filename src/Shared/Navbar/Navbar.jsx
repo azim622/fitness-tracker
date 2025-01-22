@@ -10,6 +10,9 @@ const Navbar = () => {
 
   const axiosPublic = AxiosPublic();
 
+  
+
+
   useEffect(() => {
     const fetchRole = async () => {
       try {
