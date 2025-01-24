@@ -21,7 +21,7 @@ const AuthPRovider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
   const axiosPublic = AxiosPublic();
   const [role, setRole] = useState(null);
-
+console.log(role)
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);

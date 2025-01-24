@@ -27,6 +27,7 @@ import ManageSlot from "../Layout/DashBoard/ManageSlot/ManageSlot";
 import Community from "../Pages/Community/Community";
 import ProfilePage from "../Layout/DashBoard/ProfilePgae/ProfilePage";
 import Payment from "../Pages/Payment/Payment";
+import BookTrainer from "../Pages/DashBoard/BookedTrainer/BookTrainer";
 
   export const router = createBrowserRouter([
     {
@@ -53,12 +54,12 @@ import Payment from "../Pages/Payment/Payment";
         {
           path: "details/:id",
           element: <Details />,
-          loader: ({ params }) => fetch(`https://fitness-tracker-server-orcin.vercel.app/allTrainer/${params.id}`),
+          loader: ({ params }) => fetch(`http://localhost:5000/allTrainer/${params.id}`),
         },
         {
           path: "trainer/:id",
           element: <PrivetRoutes><BookList></BookList></PrivetRoutes>,
-          loader: ({ params }) => fetch(`https://fitness-tracker-server-orcin.vercel.app/trainer-details/${params.id}`),
+          loader: ({ params }) => fetch(`http://localhost:5000/trainer-details/${params.id}`),
         },
       {
           path:"applyTrainer",
@@ -75,7 +76,12 @@ import Payment from "../Pages/Payment/Payment";
         {
           path:"payment",
           element:<Payment></Payment>
+        },
+        {
+          path:"payment-history",
+          element:<BookTrainer></BookTrainer>
         }
+        
         
       ]
     },

@@ -129,6 +129,14 @@ const Navbar = () => {
                 Community
               </Link>
             </li>
+            <li>
+              <Link
+                to="/payment-history"
+                className="block py-2 text-gray-700 hover:text-emerald-500"
+              >
+                Book Trainer
+              </Link>
+            </li>
           </ul>
 
           {/* User Avatar and Dropdown */}

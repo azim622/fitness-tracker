@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import useAuth from "../../Hooks/UseAuth";
+import UseAdmin from "../../Hooks/UseAdmin";
+import UseTrainer from "../../Hooks/UseTrainer";
 
 const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { role } = useAuth();
+  console.log(role)
+  const admin= UseAdmin()
+  const trainer= UseTrainer()
 
   return (
     <div className="flex h-screen">

@@ -8,6 +8,7 @@ import BeATrainer from '../BeATrainer/BeATrainer';
 import { Helmet } from 'react-helmet';
 import TrainerProfile from './TrainerProfile/TrainerProfile';
 import UseAdmin from '../../Hooks/UseAdmin';
+import TestimonialsCarousel from './Testimonials/TestimonialsCarousel';
 
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
             <Banner></Banner>
             <Feataured></Feataured>
             <About></About>
+            <TestimonialsCarousel></TestimonialsCarousel>
             <LatestForum></LatestForum>
             <NewsLatter></NewsLatter>
             <TrainerProfile></TrainerProfile>

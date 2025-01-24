@@ -16,7 +16,7 @@ const NewsLatter = () => {
         Swal.fire({
           position: "top-center",
           icon: "success",
-          title: "NewsLatter Added Successfully!",
+          title: "Newsletter Added Successfully!",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -31,28 +31,17 @@ const NewsLatter = () => {
   return (
     <div>
       <section className="bg-gradient-to-r from-indigo-100 via-purple-200 to-cyan-100 py-20">
-        <div className="container mx-auto max-w-4xl px-6 lg:px-8 flex flex-col items-center justify-center space-y-12 lg:space-y-0 lg:flex-row lg:gap-12">
-          {/* Left Side: Image or Placeholder */}
+        <div className="container mx-auto px-6 lg:px-8 flex flex-col items-center justify-center space-y-12">
+          {/* Center Content: Form */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="flex-1"
-          >
-            {/* Add any image or icon if needed */}
-          </motion.div>
-
-          {/* Right Side: Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            className="flex-1 bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto"
+            className="bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl"
           >
             <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-indigo-700 sm:text-4xl">
-                Join Our{" "}
-                <span className="text-cyan-600">Newsletter</span>
+              <h2 className="text-4xl font-bold text-indigo-700">
+                Join Our <span className="text-cyan-600">Newsletter</span>
               </h2>
               <p className="mt-4 text-gray-600 text-lg sm:text-xl">
                 Get exclusive fitness tips, updates, and exciting offers!

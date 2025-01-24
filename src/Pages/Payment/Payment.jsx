@@ -83,7 +83,7 @@ const Payment = () => {
       {/* Stripe Confirmation Section */}
       <div>
         <Elements stripe={stripePromise}>
-          <CheckOutFrom selectedPackage={selectedPackage} />
+          <CheckOutFrom selectedPackage={selectedPackage} trainer={trainer} />
         </Elements>
       </div>
     </div>

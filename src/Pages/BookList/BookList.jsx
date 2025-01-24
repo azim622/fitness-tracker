@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import AxiosPublic from "../../Hooks/AxiosPublic";
 
 const TrainerBookedPage = () => {
@@ -30,13 +31,26 @@ const TrainerBookedPage = () => {
   if (slotsLoading) return <div>Loading slots...</div>;
 
   return (
-    <div className="trainer-details container mx-auto p-6">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="trainer-details container mx-auto p-6"
+    >
+      <h2 className="text-4xl font-bold text-center my-4 text-blue-600 animate-pulse">
+        Add Book List
+      </h2>
       {/* Trainer Header */}
-      <div className="trainer-header flex flex-col md:flex-row items-center gap-4 mb-8">
+      <motion.div
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="trainer-header flex flex-col md:flex-row items-center gap-4 mb-8 border rounded-lg shadow-md p-4 bg-gradient-to-r from-blue-50 to-indigo-50"
+      >
         <img
           src={trainer.profileImage || "/default-profile.jpg"} // Use a default image if not provided
           alt={trainer.fullName || "Trainer"}
-          className="w-32 h-32 rounded-full object-cover border border-gray-300"
+          className="w-32 h-32 rounded-full object-cover border border-gray-300 shadow-lg"
         />
         <div>
           <h2 className="text-2xl font-bold text-gray-800">
@@ -47,23 +61,32 @@ const TrainerBookedPage = () => {
             Available Time: {trainer.availableTime || "Not specified"}
           </p>
           <p className="text-gray-600">
-            Available Days:{" "}
-            {trainer.availableDays?.length > 0
+            Available Days: {trainer.availableDays?.length > 0
               ? trainer.availableDays.join(", ")
               : "Not specified"}
           </p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Available Slots Section */}
-      <div className="slots-section mb-8">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="slots-section mb-8"
+      >
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
           Available Slots
         </h3>
         {slots.length > 0 ? (
-          <table className="w-full border-collapse border border-gray-300">
+          <motion.table
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full border-collapse border border-gray-300 rounded-lg shadow-md overflow-hidden"
+          >
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-gradient-to-r from-indigo-100 to-blue-100">
                 <th className="border border-gray-300 px-4 py-2">Slot Name</th>
                 <th className="border border-gray-300 px-4 py-2">Slot Time</th>
                 <th className="border border-gray-300 px-4 py-2">Class</th>
@@ -71,7 +94,7 @@ const TrainerBookedPage = () => {
             </thead>
             <tbody>
               {slots.map((slot) => (
-                <tr key={slot._id}>
+                <tr key={slot._id} className="hover:bg-blue-50 transition">
                   <td className="border border-gray-300 px-4 py-2">
                     {slot.slotName || "N/A"}
                   </td>
@@ -84,15 +107,20 @@ const TrainerBookedPage = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </motion.table>
         ) : (
           <p>No available slots found.</p>
         )}
-      </div>
+      </motion.div>
 
       {/* Membership Packages Section */}
-      <div className="membership-section mb-8">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="membership-section mb-8"
+      >
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
           Membership Packages
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -124,9 +152,12 @@ const TrainerBookedPage = () => {
               price: 100,
             },
           ].map((packageItem, index) => (
-            <div
+            <motion.div
               key={index}
-              className="package-card border rounded-lg p-4 shadow-sm hover:shadow-md transition"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              className="package-card border rounded-lg p-4 shadow-lg hover:shadow-xl transition-transform hover:scale-105 bg-gradient-to-r from-white to-blue-50"
             >
               <h4 className="text-lg font-semibold text-gray-700 mb-2">
                 {packageItem.name}
@@ -141,15 +172,15 @@ const TrainerBookedPage = () => {
               </p>
               <button
                 onClick={() => handleJoinNow(packageItem)}
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
               >
                 Join Now
               </button>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
