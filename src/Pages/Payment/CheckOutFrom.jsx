@@ -90,28 +90,30 @@ const CheckOutForm = ({ selectedPackage, trainer }) => {
           moneyTransactionId: paymentIntent.id,
           date: new Date(),
           trainerName: trainer?.fullName || "Unknown",
+          trainerImage: trainer?.profileImage || "Unknown",
           className: selectedPackage?.className || "Unknown",
           slot: selectedPackage?.slot || "No slot selected", // Include slot information
         };
 
-        try {
-          await axiosSecure.post("/payments", paymentDetails);
+        console.log(paymentDetails)
+        // try {
+        //   await axiosSecure.post("/payments", paymentDetails);
 
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Payment successful!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } catch (dbError) {
-          console.error("Error saving payment details:", dbError);
-          Swal.fire({
-            icon: "error",
-            title: "Payment Saved Error",
-            text: "The payment succeeded, but we couldn't save the details. Please contact support.",
-          });
-        }
+        //   Swal.fire({
+        //     position: "top-end",
+        //     icon: "success",
+        //     title: "Payment successful!",
+        //     showConfirmButton: false,
+        //     timer: 1500,
+        //   });
+        // } catch (dbError) {
+        //   console.error("Error saving payment details:", dbError);
+        //   Swal.fire({
+        //     icon: "error",
+        //     title: "Payment Saved Error",
+        //     text: "The payment succeeded, but we couldn't save the details. Please contact support.",
+        //   });
+        // }
       }
     } catch (error) {
       console.error("Payment error:", error);

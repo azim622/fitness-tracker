@@ -115,7 +115,7 @@ const AppliedTrainer = () => {
                   Name
                 </th>
                 <th className="py-2 px-4 text-left font-medium text-gray-700">
-                  Details
+                  Email
                 </th>
                 <th className="py-2 px-4 text-left font-medium text-gray-700">
                   Approve
@@ -136,14 +136,8 @@ const AppliedTrainer = () => {
                     />
                   </td>
                   <td className="py-3 px-4">{trainer.fullName}</td>
-                  <td className="py-3 px-4">
-                    <button
-                      onClick={() => navigate(`/trainer/${trainer._id}`)}
-                      className="text-blue-500 underline"
-                    >
-                      Details
-                    </button>
-                  </td>
+                  <td className="py-3 px-4">{trainer.email}</td>
+                 
                   <td className="py-3 px-4">
                     <button onClick={() => handleApprove(trainer._id)}>
                       <FcApprove size={24} />

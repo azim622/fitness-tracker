@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import AxiosPublic from "../../Hooks/AxiosPublic";
 
 const TrainerBookedPage = () => {
+  const {id} = useParams()
   const axiosPublic = AxiosPublic();
   const navigate = useNavigate();
 
@@ -19,8 +20,10 @@ const TrainerBookedPage = () => {
   const { data: slots = [], isLoading: slotsLoading } = useQuery({
     queryKey: ["slots"],
     queryFn: async () => {
-      const response = await axiosPublic.get("/slots");
+      const response = await axiosPublic.get(`/slot/${id}`);
+      console.log(response.data)
       return response.data;
+
     },
   });
 

@@ -12,8 +12,6 @@ import TestimonialsCarousel from './Testimonials/TestimonialsCarousel';
 
 
 const Home = () => {
-    const [users]= UseAdmin()
-    console.log(users)
     return (
         <div>
              <Helmet>

@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 // Star rating component
 const StarRating = ({ rating, onRatingChange }) => {
+  const {user}= useA
   const handleStarClick = (starIndex) => {
     if (onRatingChange) {
       onRatingChange(starIndex + 1); // Star index starts from 0, so we add 1
@@ -183,7 +184,7 @@ const BookTrainer = () => {
       <section className="flex items-center mb-6 bg-white p-4 rounded-lg shadow-lg">
         <div className="w-32 h-32 overflow-hidden rounded-full border-4 border-purple-600 mr-6">
           <img
-            src={trainer.profileImage || "default-image.jpg"}
+            src={trainer.trainerImage || "default-image.jpg"}
             alt="Trainer"
             className="w-full h-full object-cover"
           />

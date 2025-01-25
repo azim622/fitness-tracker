@@ -4,11 +4,31 @@ import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/UseAuth";
 import SelectClass from "./SelectClass";
+import Swal from "sweetalert2";
 
 const AddNewSlot = () => {
+  const [userId, setUserId]= useState(null)
   const { user } = useAuth();
   const axiosSecure = UseAxiosSecure();
   const userEmail = user?.email;
+
+  useEffect(()=>{
+    const fetchData=async()=>{
+      try{
+        const response= await axiosSecure.get(`/user?email=${user.email}`)
+        const data =await response.data
+        setUserId(data._id)
+  
+      }
+      catch(error){
+        console.log(error)
+      }
+
+    }
+
+    fetchData()
+
+  },[axiosSecure, user.email])
 
   // Fetch classes dynamically using react-query
   const {
@@ -57,6 +77,7 @@ const AddNewSlot = () => {
   
     // Construct the data to post
     const newSlot = {
+      trainerId:userId,
       slotName,
       slotTime,
       selectedDays: selectedDays.map((day) => day.value), // Extract values from selectedDays
@@ -80,7 +101,13 @@ const AddNewSlot = () => {
   
       // Check response and handle success or failure
       if (response.status === 200) {
-        alert("New slot added successfully!"); // Replace with a toast or sweet alert if preferred
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "New Slot Added SuccessFully",
+          showConfirmButton: false,
+          timer: 1500
+        });
       } else {
         alert("Failed to add new slot. Please try again.");
       }

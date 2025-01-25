@@ -8,8 +8,6 @@ const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { role } = useAuth();
   console.log(role)
-  const admin= UseAdmin()
-  const trainer= UseTrainer()
 
   return (
     <div className="flex h-screen">
@@ -71,6 +69,14 @@ const DashBoard = () => {
                 </NavLink>
               </li>
               <li>
+              <NavLink
+                to="/dashboard/admin/payment-balance"
+                className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+              >
+                Balance
+              </NavLink>
+            </li>
+              <li>
                 <NavLink
                   to="/dashboard/admin/users"
                   className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
@@ -128,14 +134,15 @@ const DashBoard = () => {
                   Activity Log
                 </NavLink>
               </li>
+             
               <li>
-                <NavLink
-                  to="/dashboard/member/myActivities"
-                  className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
-                >
-                  My Activities
-                </NavLink>
-              </li>
+              <NavLink
+                to="/dashboard/member/book-trainer"
+               className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300"
+              >
+                Book Trainer
+              </NavLink>
+            </li>
               <li>
                 <NavLink
                   to="/dashboard/member/profilePage"
@@ -146,6 +153,7 @@ const DashBoard = () => {
               </li>
             </>
           )}
+           <hr className="border-t-2 border-gray-300 my-4" />
           <li>
             <NavLink
               to="/"

@@ -13,6 +13,7 @@ import AxiosPublic from "../../Hooks/AxiosPublic";
 
 const Community = () => {
   const axiosPublic = AxiosPublic();
+  const {user} = useAuth()
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data: forumData, refetch } = useQuery({
@@ -78,7 +79,8 @@ const Community = () => {
             </p>
 
             {/* Voting System */}
-            <div className="flex gap-6 items-center mt-4">
+            {
+              user? <div className="flex gap-6 items-center mt-4">
               <button
                 onClick={() => handleLike(forum._id)}
                 className="bg-green-100 flex gap-2 items-center hover:bg-green-200 p-3 rounded-full transition-colors"
@@ -93,7 +95,9 @@ const Community = () => {
                 <AiFillDislike size={22} color="#e74c3c" />
                 <span>{forum?.downVote > 0 ? forum?.downVote : 0}</span>
               </button>
-            </div>
+            </div>:undefined
+            }
+            
 
             <p className="mt-6 flex items-center text-sm text-gray-500">
               Posted by: {forum?.badge || "Unknown"}

@@ -28,6 +28,7 @@ import Community from "../Pages/Community/Community";
 import ProfilePage from "../Layout/DashBoard/ProfilePgae/ProfilePage";
 import Payment from "../Pages/Payment/Payment";
 import BookTrainer from "../Pages/DashBoard/BookedTrainer/BookTrainer";
+import Balance from "../Pages/Details/Balance/Balance";
 
   export const router = createBrowserRouter([
     {
@@ -77,10 +78,8 @@ import BookTrainer from "../Pages/DashBoard/BookedTrainer/BookTrainer";
           path:"payment",
           element:<Payment></Payment>
         },
-        {
-          path:"payment-history",
-          element:<BookTrainer></BookTrainer>
-        }
+        
+        
         
         
       ]
@@ -102,6 +101,10 @@ import BookTrainer from "../Pages/DashBoard/BookedTrainer/BookTrainer";
         {
           path:"admin/addClass",
           element:<PrivetRoutes><AddClass></AddClass></PrivetRoutes>
+        },
+        {
+          path:"admin/payment-balance",
+          element:<PrivetRoutes><Balance></Balance></PrivetRoutes>
         },
         {
           path:"admin/users",
@@ -132,7 +135,11 @@ import BookTrainer from "../Pages/DashBoard/BookedTrainer/BookTrainer";
         {
           path:"member/profilePage",
           element:<PrivetRoutes><ProfilePage></ProfilePage></PrivetRoutes>
-        }
+        },
+        {
+          path:"member/book-trainer",
+          element:<PrivetRoutes><BookTrainer></BookTrainer></PrivetRoutes>
+        },
       ]
     }
   ]);

@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logOut, role, setRole } = useContext(AuthContext);
-
+const [data,setData] = useState(null)
   const axiosPublic = AxiosPublic();
 
   
@@ -16,20 +16,21 @@ const Navbar = () => {
   useEffect(() => {
     const fetchRole = async () => {
       try {
-        if (user?.email) {
-          const response = await axiosPublic.get(`/getRole/${user.email}`);
-          if (response.data?.length > 0) {
-            setRole(response.data[0]?.role);
-          }
-        }
+          const response = await axiosPublic.get(`/getRoles/${user.email}`);
+          // if (response.data?.length > 0) {
+          //   setRole(response.data[0]?.role);
+          // }
+          setRole(response.data?.role)
+
       } catch (error) {
         console.error("Failed to fetch role:", error);
         setRole(null);
       }
     };
 
-    if (user) fetchRole();
-  }, [user, axiosPublic]);
+ fetchRole();
+  }, [user?.email, axiosPublic]);
+  console.log(data)
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -129,14 +130,8 @@ const Navbar = () => {
                 Community
               </Link>
             </li>
-            <li>
-              <Link
-                to="/payment-history"
-                className="block py-2 text-gray-700 hover:text-emerald-500"
-              >
-                Book Trainer
-              </Link>
-            </li>
+           
+
           </ul>
 
           {/* User Avatar and Dropdown */}
@@ -151,6 +146,10 @@ const Navbar = () => {
                   alt="User Avatar"
                   className="h-full w-full rounded-full object-cover"
                 />
+                {/* User Name on Hover */}
+                <div className="absolute bottom-0 -left-16 right-0  bg-opacity-70 text-black font-semibold text-sm py-1 text-center opacity-0 hover:opacity-100 transition-all">
+                  {user.displayName}
+                </div>
               </button>
             ) : (
               <Link

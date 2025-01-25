@@ -1,114 +1,99 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Slider from "react-slick";
+import React, { useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import AxiosPublic from '../../../Hooks/AxiosPublic';
 
 const TestimonialsCarousel = () => {
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const axiosPublic = AxiosPublic();
 
-  // Fetch reviews from the backend
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get("/reviews");
-
-        console.log("Response data:", response.data);
-
-        if (response.data && response.data.reviews) {
-          setReviews(response.data.reviews);
-          setTotalPages(response.data.totalPages);
-          setLoading(false);
-        } else {
-          throw new Error("Reviews data is missing");
-        }
-      } catch (err) {
-        console.error("Error fetching reviews:", err);
-        setError("Failed to load reviews. Please try again later.");
-        setLoading(false);
+        const response = await axiosPublic.get("/reviews");
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
       }
     };
 
     fetchReviews();
-  }, [currentPage]);
+  }, []);
 
-  console.log("Reviews:", reviews);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    nextArrow: <button className="slick-next">Next</button>,
-    prevArrow: <button className="slick-prev">Prev</button>,
-    responsive: [
-      {
-        breakpoint: 1024, // For smaller screens
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600, // For mobile
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
   };
 
-  if (loading) return <p>Loading reviews...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length);
+  };
+
+  const visibleReviews = reviews.slice(currentIndex, currentIndex + 3);
 
   return (
-    <div className="container mx-auto my-8">
-      <h2 className="text-3xl font-bold text-center mb-6">What Our Users Say</h2>
-      <Slider {...settings}>
-        {reviews && reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div
-              key={review._id}
-              className="p-6 bg-white rounded-lg shadow-lg mx-3 flex flex-col items-center"
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        What Our Clients Say
+      </h2>
+      {reviews.length === 0 ? (
+        <div className="text-center text-gray-500">No reviews available.</div>
+      ) : (
+        <div className="relative">
+          {/* Navigation buttons */}
+          <div className="flex justify-between items-center mb-4">
+            <button
+              onClick={prevSlide}
+              className="bg-gray-200 p-3 rounded-full shadow hover:bg-gray-300 transition-all"
+              aria-label="Previous"
             >
-              <div className="text-yellow-500 text-lg mb-4">
-                {Array.from({ length: review.rating }, (_, i) => (
-                  <span key={i}>⭐</span>
-                ))}
+              <ChevronLeft className="w-6 h-6 text-gray-600" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="bg-gray-200 p-3 rounded-full shadow hover:bg-gray-300 transition-all"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-6 h-6 text-gray-600" />
+            </button>
+          </div>
+          {/* Review Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {visibleReviews.map((review, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              >
+                {/* User Info */}
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-blue-500 text-white flex items-center justify-center rounded-full">
+                    {review.userEmail.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="ml-3">
+                    <h4 className="font-semibold text-gray-800">
+                      {review.userEmail}
+                    </h4>
+                    {/* Star Rating */}
+                    <div className="flex">
+                      {[...Array(5)].map((_, starIndex) => (
+                        <Star
+                          key={starIndex}
+                          className={`w-5 h-5 ${
+                            starIndex < review.rating
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                {/* Review Content */}
+                <p className="text-gray-600">{review.review}</p>
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-center">
-                {review.userEmail}
-              </h3>
-              {/* Unescape the quotes and render the review text properly */}
-              <p className="text-gray-600 text-sm text-center">
-                {review.review.replace(/\\n/g, ' ').replace(/\\"/g, '"')}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>No reviews available</p>
-        )}
-      </Slider>
-      <div className="flex justify-between mt-6">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Prev
-        </button>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Next
-        </button>
-      </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
