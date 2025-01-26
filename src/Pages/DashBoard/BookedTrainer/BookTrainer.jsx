@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 // Star rating component
 const StarRating = ({ rating, onRatingChange }) => {
-  const {user}= useA
+  const {user}= useAuth()
   const handleStarClick = (starIndex) => {
     if (onRatingChange) {
       onRatingChange(starIndex + 1); // Star index starts from 0, so we add 1

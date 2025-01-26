@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AxiosPublic from '../../Hooks/AxiosPublic';
 import { Helmet } from 'react-helmet';
 
@@ -7,11 +8,15 @@ const AllClass = () => {
     const [search, setSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const [hoveredTrainer, setHoveredTrainer] = useState(null);
     const axiosPublic = AxiosPublic();
+    const navigate = useNavigate();
 
+    // Fetch classes from the API
     const fetchClasses = async (searchQuery = '', page = 1) => {
         try {
             const response = await axiosPublic.get(`/addClass?search=${searchQuery}&page=${page}&limit=6`);
+            console.log('API Response:', response.data); // Debugging: Check API Response
             setClasses(response.data.classes);
             setTotalPages(response.data.totalPages);
         } catch (error) {
@@ -32,6 +37,10 @@ const AllClass = () => {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
+    };
+
+    const handleTrainerClick = (trainerId) => {
+        navigate(`/details/${trainerId}`);
     };
 
     return (
@@ -55,7 +64,8 @@ const AllClass = () => {
                 {classes.map((classItem) => (
                     <div
                         key={classItem._id}
-                        className="border rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        className="border rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                    >
                         <img
                             src={classItem.image}
                             alt={classItem.className}
@@ -68,7 +78,36 @@ const AllClass = () => {
                                 <p className="text-gray-500 text-sm">{classItem.additionalInfo}</p>
                             )}
                         </div>
+                        <div>
+                        {classItem.trainer && Array.isArray(classItem.trainer) && (
+                            <div className="flex flex-wrap gap-3 p-4">
+                                {classItem.trainer.map((trainer) => (
+                                    <div
+                                        key={trainer.id}
+                                        className="relative group"
+                                        onMouseEnter={() => setHoveredTrainer(trainer.id)}
+                                        onMouseLeave={() => setHoveredTrainer(null)}
+                                        onClick={() => handleTrainerClick(trainer.id)}
+                                    >
+                                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-blue-500 transition-all duration-300 cursor-pointer">
+                                            <img
+                                                src={trainer.profileImage}
+                                                alt={trainer.fullName}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        {hoveredTrainer === trainer.id && (
+                                            <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-1.5 rounded-lg text-sm whitespace-nowrap z-10 shadow-lg">
+                                                {trainer.fullName}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        </div>
                     </div>
+                    
                 ))}
             </div>
 
