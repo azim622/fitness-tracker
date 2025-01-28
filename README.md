@@ -5,13 +5,13 @@ A comprehensive web application to help users track their fitness journey, monit
 ---
 
 ## 🔗 Live Site
-[Fitness Tracker Live](https://your-live-site-url.com)
+[Fitness Tracker Live](https://fitness-tracker-site-b8b97.web.app)
 
 ---
 
 ## 🛡️ Admin Credentials
-- **Username:** admin
-- **Password:** admin123
+- **Username:** azim256
+- **Password:** 123Aa@
 
 ---
 
