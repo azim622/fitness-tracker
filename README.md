@@ -10,7 +10,7 @@ A comprehensive web application to help users track their fitness journey, monit
 ---
 
 ## 🛡️ Admin Credentials
-- **Username:** azim256
+- **Username:** azim256@gmail.com
 - **Password:** 123Aa@
 
 ---
