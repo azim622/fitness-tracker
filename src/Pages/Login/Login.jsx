@@ -1,49 +1,52 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthPRovider";
-import Swal from "sweetalert2";
 import SocialLogin from "../../Shared/socialLogin/SocialLogin";
 
 const Login = () => {
-    const { signin  } = useContext(AuthContext);
-    const navigate = useNavigate()
+  const { signin } = useContext(AuthContext);
+  const navigate = useNavigate();
   const location = useLocation();
+  const [error, setError] = useState("");
 
   const from = location?.state?.from?.pathname || "/";
-  console.log("state in  the location", location.state);
+  console.log("state in the location", location.state);
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(email, password);
-        signin(email, password).then((result) => {
-            const user = result.user;
-            console.log(user);
-            Swal.fire({
-              position: "top-center",
-              icon: "success",
-              title: "Successfully Login",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            navigate(from, { replace: true });
-          });
-    }
-   
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+
+    signin(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setError(""); // Clear error on successful login
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        // Display error below password field
+        setError("Invalid email or password. Please try again.");
+        console.error("Login error:", error);
+      });
+  };
+
   return (
-
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       {/* Card with form */}
-      <form onSubmit={handleLogin} className="overflow-hidden w-full max-w-md bg-white rounded shadow-md text-slate-500 shadow-slate-200">
+      <form
+        onSubmit={handleLogin}
+        className="overflow-hidden w-full max-w-md bg-white rounded shadow-md text-slate-500 shadow-slate-200"
+      >
         {/* Body */}
         <div className="p-6">
           <header className="mb-4 text-center">
             <h3 className="text-xl font-medium text-slate-700">Login</h3>
           </header>
           <div className="flex flex-col space-y-8">
-            {/* Input field */}
+            {/* Email Input */}
             <div className="relative my-6">
               <input
                 id="id-b03"
@@ -62,7 +65,7 @@ const Login = () => {
                 <span>Type your email address</span>
               </small>
             </div>
-            {/* Input field */}
+            {/* Password Input */}
             <div className="relative my-6">
               <input
                 id="id-b13"
@@ -77,10 +80,10 @@ const Login = () => {
               >
                 Your password
               </label>
-              
-              <small className="absolute flex justify-between w-full px-4 py-1 text-xs text-slate-400 peer-invalid:text-pink-500">
-                <span>Input field with trailing icon</span>
-              </small>
+              {/* Error Message */}
+              {error && (
+                <p className="mt-2 text-sm text-red-500">{error}</p>
+              )}
             </div>
           </div>
         </div>
@@ -94,16 +97,16 @@ const Login = () => {
         <SocialLogin></SocialLogin>
 
         <p className="text-center mt-4">
-        <small>
-                New Here ? <Link to="/signIn"><span className="text-red-500 font-semibold">SignUp</span></Link>
-              </small>
+          <small>
+            New Here?{" "}
+            <Link to="/signIn">
+              <span className="text-red-500 font-semibold">SignUp</span>
+            </Link>
+          </small>
         </p>
       </form>
     </div>
   );
 };
-
-
-
 
 export default Login;
