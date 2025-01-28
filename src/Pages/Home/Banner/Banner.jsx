@@ -1,7 +1,9 @@
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
+  const navigate = useNavigate()
   return (
     <div className="relative w-full">
       <Carousel 
@@ -19,12 +21,12 @@ const Banner = () => {
             className="w-full h-96 object-cover"
             alt="Fitness Center Banner 1"
           />
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div> {/* Dark overlay */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white px-4">
             <h2 className="text-3xl font-bold mb-4">Fitness Center for All Levels</h2>
             <p className="text-lg mb-6">Join our fitness community and achieve your health goals with expert trainers and a welcoming environment.</p>
             <button 
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-              onClick={() => window.location.href = '/classes'}
             >
               Explore Classes
             </button>
@@ -38,12 +40,12 @@ const Banner = () => {
             className="w-full h-96 object-cover"
             alt="Smart Fitness Tracker"
           />
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div> {/* Dark overlay */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white px-4">
             <h2 className="text-3xl font-bold mb-4">Track Your Progress</h2>
             <p className="text-lg mb-6">Monitor your fitness progress with smart tracking devices and personalized insights.</p>
             <button 
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-              onClick={() => window.location.href = '/classes'}
             >
               Explore Classes
             </button>
@@ -57,12 +59,12 @@ const Banner = () => {
             className="w-full h-96 object-cover"
             alt="Fitness Gym"
           />
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div> {/* Dark overlay */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white px-4">
             <h2 className="text-3xl font-bold mb-4">Achieve Your Goals</h2>
             <p className="text-lg mb-6">Stay motivated and focused with our top-tier fitness programs.</p>
             <button 
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-              onClick={() => window.location.href = '/classes'}
             >
               Explore Classes
             </button>
@@ -76,12 +78,12 @@ const Banner = () => {
             className="w-full h-96 object-cover"
             alt="Dynamic Fitness Tracker"
           />
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div> {/* Dark overlay */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white px-4">
             <h2 className="text-3xl font-bold mb-4">Fitness on Your Terms</h2>
             <p className="text-lg mb-6">Experience fitness that adapts to your schedule and needs.</p>
             <button 
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-              onClick={() => window.location.href = '/classes'}
             >
               Explore Classes
             </button>
@@ -95,12 +97,12 @@ const Banner = () => {
             className="w-full h-96 object-cover"
             alt="Fitness Tracker"
           />
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div> {/* Dark overlay */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white px-4">
             <h2 className="text-3xl font-bold mb-4">Stay on Track</h2>
             <p className="text-lg mb-6">Achieve your fitness goals with precision tracking and personalized workouts.</p>
             <button 
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-              onClick={() => window.location.href = '/classes'}
             >
               Explore Classes
             </button>

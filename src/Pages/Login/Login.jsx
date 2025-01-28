@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthPRovider";
 import SocialLogin from "../../Shared/socialLogin/SocialLogin";
+import Swal from "sweetalert2"; // Import SweetAlert
 
 const Login = () => {
   const { signin } = useContext(AuthContext);
@@ -24,7 +25,15 @@ const Login = () => {
         const user = result.user;
         console.log(user);
         setError(""); // Clear error on successful login
-        navigate(from, { replace: true });
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "'You have logged in successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          navigate(from, { replace: true });
+        });
       })
       .catch((error) => {
         // Display error below password field
@@ -81,9 +90,7 @@ const Login = () => {
                 Your password
               </label>
               {/* Error Message */}
-              {error && (
-                <p className="mt-2 text-sm text-red-500">{error}</p>
-              )}
+              {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
             </div>
           </div>
         </div>
