@@ -1,102 +1,109 @@
 # Fitness Tracker
 
-A comprehensive web application to help users track their fitness journey, monitor their progress, and achieve their health goals efficiently.
+## 🚀 Project Overview
+The **Fitness Tracker** is a web application designed to help users monitor their fitness progress, set goals, and track workouts efficiently. Users can log their activities, view progress over time, and stay motivated on their fitness journey.
 
 ---
 
-## 🔗 Live Site
-[Fitness Tracker Live](https://fitness-tracker-site-b8b97.web.app)
+## 🖥️ Live Project
+[🔗 Fitness Tracker Live Demo](#) *(Update with actual link)*
 
 ---
 
-## 🛡️ Admin Credentials
-- **Username:** azim256@gmail.com
-- **Password:** 123Aa@
+## 🖼️ Project Screenshot
+![Fitness Tracker Screenshot](assets/screenshot.png) *(Replace with actual screenshot path)*
 
 ---
 
-## 💡 Key Features
-
-1. **User Authentication**:
-   - Secure login and registration system using Firebase authentication.
-   - Role-based access control for users and admins.
-
-2. **Fitness Tracking**:
-   - Track daily activities like workouts, calorie intake, and progress.
-   - Graphical representation of user progress using charts.
-
-3. **Dashboard**:
-   - Personalized dashboard showing key fitness metrics.
-   - View recent activities, set goals, and monitor progress.
-
-4. **Trainer Management**:
-   - Admins can add, update, and manage trainers.
-   - Trainers can create workout plans and suggest exercises.
-
-5. **Class Scheduling**:
-   - Users can view available fitness classes.
-   - Trainers can add new slots for classes with flexible scheduling.
-
-6. **Responsive Design**:
-   - Fully responsive and optimized for all devices.
-
-7. **Search and Filter**:
-   - Advanced search and filter functionality to find classes, trainers, and activities easily.
-
-8. **Dark/Light Theme**:
-   - Toggle between dark and light modes for better user experience.
-
-9. **Data Visualization**:
-   - Interactive graphs to visualize user fitness progress over time.
-
-10. **Admin Panel**:
-    - Centralized admin dashboard to manage users, trainers, classes, and application settings.
+## 🔥 Key Features
+- **User Dashboard**: View personal fitness stats and progress.
+- **Workout Logging**: Add, edit, and delete workout sessions.
+- **Goal Setting**: Set and track fitness goals.
+- **Progress Visualization**: Graphs and charts to analyze progress.
+- **Authentication**: Secure login & signup (Email/Google).
+- **Mobile Friendly**: Fully responsive design.
 
 ---
 
 ## 🛠️ Technologies Used
+### Frontend
+- **React.js** – Component-based UI
+- **Tailwind CSS** – Modern styling
+- **Recharts** – Data visualization
 
-- **Frontend**:
-  - React.js
-  - Tailwind CSS
-  - React Query
-  - React Router DOM
+### Backend
+- **Node.js & Express.js** – API & Server
+- **MongoDB** – Database for storing workout data
+- **JWT Authentication** – Secure user login
 
-- **Backend**:
-  - Node.js
-  - Express.js
-  - MongoDB
-
-- **Authentication**:
-  - Firebase
-
-- **Deployment**:
-  - Vercel 
+### Hosting
+- **Firebase** – Client-side deployment
+- **Vercel** – Server-side deployment
 
 ---
 
-## 📂 Project Structure
+## 📜 Installation & Setup
 
-- **/src**: Contains all the source code for the application.
-  - **/components**: Reusable UI components.
-  - **/pages**: Individual pages like Home, Dashboard, and Login.
-  - **/hooks**: Custom React hooks.
-  - **/utils**: Helper functions and utilities.
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/yourusername/fitness-tracker.git
+```
+
+### 2️⃣ Install Dependencies
+#### Client Side
+```bash
+cd client
+npm install
+```
+#### Server Side
+```bash
+cd server
+npm install
+```
+
+### 3️⃣ Configure Environment Variables
+Create a `.env` file in both **client** and **server** directories and add required keys.
+
+### 4️⃣ Run the Application
+#### Start Client
+```bash
+npm start
+```
+#### Start Server
+```bash
+npm run dev
+```
 
 ---
 
-
-
-
-## 📧 Support
-If you have any questions or need assistance, feel free to reach out at [your-email@example.com](mailto:fazleazim622@gmai.com).
-
----
-
-## 🤝 Contributions
-Contributions are welcome! Please fork this repository and submit a pull request for any features or bug fixes.
+## 📌 Dependencies
+- **Axios** – For API requests
+- **Dotenv** – Environment variable management
+- **Cors** – Handling cross-origin requests
 
 ---
 
-### Thank you for choosing Fitness Tracker to achieve your fitness goals! 💪
+## 📊 GitHub Stats
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=yourusername&show_icons=true&theme=dracula" height="150" alt="GitHub Stats" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=yourusername&layout=compact&theme=dracula" height="150" alt="Top Languages" />
+</div>
 
+---
+
+## 🌐 Connect With Me
+<div align="left">
+  <a href="https://github.com/yourusername" target="_blank">
+    <img src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/github/default.svg" width="40" height="40" alt="GitHub" />
+  </a>
+  <a href="https://linkedin.com/in/yourusername" target="_blank">
+    <img src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/linkedin/default.svg" width="40" height="40" alt="LinkedIn" />
+  </a>
+  <a href="mailto:your.email@example.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/gmail/default.svg" width="40" height="40" alt="Email" />
+  </a>
+</div>
+
+---
+
+### ⚡ Happy Coding! 🚀
