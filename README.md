@@ -6,7 +6,7 @@ The **Fitness Tracker** is a web application designed to help users monitor thei
 ---
 
 ## 🖥️ Live Project
-[🔗 Fitness Tracker Live Demo](#) *(Update with actual link)*
+https://fitness-tracker-site-b8b97.web.app/
 
 ---
 
@@ -83,13 +83,7 @@ npm run dev
 
 ---
 
-## 📊 GitHub Stats
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=yourusername&show_icons=true&theme=dracula" height="150" alt="GitHub Stats" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=yourusername&layout=compact&theme=dracula" height="150" alt="Top Languages" />
-</div>
 
----
 
 ## 🌐 Connect With Me
 <div align="left">
