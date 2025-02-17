@@ -11,26 +11,18 @@ const Navbar = () => {
 
   useEffect(() => {
     const fetchRole = async () => {
-      try {
-        const response = await axiosPublic.get(`/getRoles/${user.email}`);
-        setRole(response.data?.role);
-      } catch (error) {
-        console.error("Failed to fetch role:", error);
-        setRole(null);
+      if (user?.email) {
+        try {
+          const response = await axiosPublic.get(`/getRoles/${user.email}`);
+          setRole(response.data?.role);
+        } catch (error) {
+          console.error("Failed to fetch role:", error);
+          setRole(null);
+        }
       }
     };
     fetchRole();
-  }, [user?.email, axiosPublic]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (!event.target.closest("#avatar-dropdown")) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
-  }, []);
+  }, [user?.email, axiosPublic, setRole]);
 
   const handleLogOut = () => {
     logOut()
@@ -39,20 +31,20 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0  left-0 right-0 z-50 w-screen bg-[#0047AB] shadow-lg">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-[#0047AB] shadow-lg">
       <div className="mx-auto max-w-7xl px-6">
         <nav className="flex h-16 items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
-           <Link   to="/"> <img
-             
-              src="https://i.ibb.co/7KnHbLm/DALL-E-2025-01-14-00-00-08-A-modern-and-minimalist-logo-design-for-a-brand-named-Fitness-Tracker-The.webp"
-              alt="Fitness Tracker Logo"
-              className="h-12 w-12 rounded-full"
-            /></Link>
             <Link to="/">
-            
-            <h2 className="text-xl font-bold text-white">Fitness Tracker</h2>
+              <img
+                src="https://i.ibb.co/7KnHbLm/DALL-E-2025-01-14-00-00-08-A-modern-and-minimalist-logo-design-for-a-brand-named-Fitness-Tracker-The.webp"
+                alt="Fitness Tracker Logo"
+                className="h-12 w-12 rounded-full"
+              />
+            </Link>
+            <Link to="/">
+              <h2 className="text-xl font-bold text-white">Fitness Tracker</h2>
             </Link>
           </div>
 
@@ -63,14 +55,30 @@ const Navbar = () => {
             aria-label="Toggle navigation"
           >
             <div className="absolute inset-0 flex flex-col justify-center space-y-1.5">
-              <span className={`h-0.5 w-full bg-white transition-transform duration-300 ${isToggleOpen ? "translate-y-1.5 rotate-45" : ""}`}></span>
-              <span className={`h-0.5 w-full bg-white transition-opacity duration-300 ${isToggleOpen ? "opacity-0" : ""}`}></span>
-              <span className={`h-0.5 w-full bg-white transition-transform duration-300 ${isToggleOpen ? "-translate-y-1.5 -rotate-45" : ""}`}></span>
+              <span
+                className={`h-0.5 w-full bg-white transition-transform duration-300 ${
+                  isToggleOpen ? "translate-y-1.5 rotate-45" : ""
+                }`}
+              ></span>
+              <span
+                className={`h-0.5 w-full bg-white transition-opacity duration-300 ${
+                  isToggleOpen ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                className={`h-0.5 w-full bg-white transition-transform duration-300 ${
+                  isToggleOpen ? "-translate-y-1.5 -rotate-45" : ""
+                }`}
+              ></span>
             </div>
           </button>
 
           {/* Navigation Links */}
-          <ul className={`absolute left-0 right-0 top-16 w-screen bg-[#0047AB] p-6 text-center shadow-lg lg:relative lg:top-0 lg:flex lg:w-auto lg:items-center lg:space-x-8 lg:p-0 lg:shadow-none ${isToggleOpen ? "block" : "hidden"}`}>
+          <ul
+            className={`absolute left-0 right-0 top-16 w-full bg-[#0047AB] p-6 text-center shadow-lg lg:relative lg:top-0 lg:flex lg:w-auto lg:items-center lg:space-x-8 lg:p-0 lg:shadow-none ${
+              isToggleOpen ? "block" : "hidden"
+            }`}
+          >
             <li>
               <Link to="/" className="block py-2 text-white hover:text-gray-200">
                 Home
@@ -86,17 +94,31 @@ const Navbar = () => {
                 All Class
               </Link>
             </li>
-            <li>
-              <Link to="/community" className="block py-2 text-white hover:text-gray-200">
-                Community
-              </Link>
-            </li>
+
+            {/* Conditionally Rendered Routes */}
+            {user && (
+              <>
+                <li>
+                  <Link to="/community" className="block py-2 text-white hover:text-gray-200">
+                    Community
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/profile" className="block py-2 text-white hover:text-gray-200">
+                    Profile
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
 
           {/* User Avatar and Dropdown */}
           <div id="avatar-dropdown" className="relative">
             {user ? (
-              <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="h-10 w-10 rounded-full border border-white">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="h-10 w-10 rounded-full border border-white focus:outline-none"
+              >
                 <img
                   src={user.photoURL || "https://via.placeholder.com/40"}
                   alt="User Avatar"
@@ -109,7 +131,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {isDropdownOpen && (
+            {isDropdownOpen && user && (
               <ul className="absolute right-0 mt-2 w-40 rounded-md bg-white shadow-lg">
                 <li className="border-b">
                   <Link
@@ -126,7 +148,10 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <button onClick={handleLogOut} className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+                  <button
+                    onClick={handleLogOut}
+                    className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+                  >
                     Log Out
                   </button>
                 </li>
