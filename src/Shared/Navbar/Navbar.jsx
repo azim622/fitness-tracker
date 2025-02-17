@@ -103,11 +103,7 @@ const Navbar = () => {
                     Community
                   </Link>
                 </li>
-                <li>
-                  <Link to="/profile" className="block py-2 text-white hover:text-gray-200">
-                    Profile
-                  </Link>
-                </li>
+               
               </>
             )}
           </ul>

@@ -13,7 +13,7 @@ const Success = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-green-200 via-green-600 to-blue-900 py-16 mb-14 rounded-lg">
+    <div className="bg-gradient-to-r from-blue-400 to-indigo-500 py-16 mb-14 rounded-lg">
       <div className="container mx-auto text-center text-white px-6">
         <h2
           className="text-4xl font-extrabold mb-6"
@@ -30,14 +30,14 @@ const Success = () => {
               <CountUp end={180} />
               +
             </h3>
-            <p className="mt-2">Artifacts Information</p>
+            <p className="mt-2">Trainer Information</p>
           </div>
           <div className="flex flex-col items-center bg-blue-700 bg-opacity-50 p-6 rounded-lg shadow-lg">
             <h3 className="text-6xl font-bold">
               <CountUp end={1000} />
               +
             </h3>
-            <p className="mt-2">Organizations Connected</p>
+            <p className="mt-2">Class Available</p>
           </div>
           <div className="flex flex-col items-center bg-blue-700 bg-opacity-50 p-6 rounded-lg shadow-lg">
             <h3 className="text-6xl font-bold">
