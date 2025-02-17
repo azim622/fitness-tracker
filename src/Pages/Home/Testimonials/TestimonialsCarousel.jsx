@@ -49,8 +49,9 @@ const TestimonialsCarousel = () => {
       ) : (
         <div className="relative">
           {/* Navigation buttons */}
-          <div className="flex justify-between items-center mb-6">
+          <div className=" flex justify-between items-center mb-6">
             <button
+            
               onClick={prevSlide}
               className="bg-purple-500 p-3 rounded-full shadow-lg hover:bg-purple-600 transition-all"
               aria-label="Previous"

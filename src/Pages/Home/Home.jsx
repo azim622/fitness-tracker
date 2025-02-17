@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import TrainerProfile from './TrainerProfile/TrainerProfile';
 import UseAdmin from '../../Hooks/UseAdmin';
 import TestimonialsCarousel from './Testimonials/TestimonialsCarousel';
+import Success from './Success/Success';
 
 
 const Home = () => {
@@ -25,6 +26,7 @@ const Home = () => {
             <About></About>
             <TestimonialsCarousel></TestimonialsCarousel>
             <LatestForum></LatestForum>
+            <Success></Success>
             <NewsLatter></NewsLatter>
             <TrainerProfile></TrainerProfile>
             </div>
