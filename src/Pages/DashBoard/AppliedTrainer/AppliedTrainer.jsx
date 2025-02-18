@@ -1,42 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { FcApprove } from "react-icons/fc";
 import { MdDelete } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 
 const AppliedTrainer = () => {
-  const [appliedTrainers, setAppliedTrainers] = useState([]);
-  const navigate = useNavigate();
   const axiosSecure = UseAxiosSecure();
 
-  // Fetch applied trainers from the backend
-  // useEffect(() => {
-  //   fetch('https://fitness-tracker-server-orcin.vercel.app/apply') // Update with the actual backend URL
-  //     .then((response) => response.json())
-  //     .then((data) => setAppliedTrainers(data))
-  //     .catch((error) => console.error('Error fetching trainers:', error));
-  // }, []);
-
   const { data: apply_trainer = [], refetch } = useQuery({
-    queryKey: ["apply_trainer", axiosSecure],
+    queryKey: ["apply_trainer"],
     queryFn: async () => {
       const res = await axiosSecure.get("/applyTrainer");
       return res.data;
     },
   });
 
-  // Handle approve trainer
   const handleApprove = async (id) => {
     try {
-      const res = await axiosSecure.patch(`/apply/${id}`);
-      const data = await res.data;
+      await axiosSecure.patch(`/apply/${id}`);
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: 'Trainer added successfully',
+        title: "Trainer approved successfully",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -46,7 +33,6 @@ const AppliedTrainer = () => {
     }
   };
 
-  // Handle reject trainer
   const handleReject = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -55,105 +41,70 @@ const AppliedTrainer = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-
-         const fetchData= async()=>{
-          try{
-
-            
-          
+        try {
           const res = await axiosSecure.patch(`/rejectApply/${id}`);
-          const data = await res.data;
-          console.log(data)
-          if(data.modifiedCount>0){
-
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success"
-            });
-
+          if (res.data.modifiedCount > 0) {
+            Swal.fire("Deleted!", "Trainer application has been rejected.", "success");
+            refetch();
           }
-          
-          
-          // refetch();
         } catch (error) {
           console.log(error);
         }
-
-         }
-         fetchData()
-        
-       
       }
     });
-    console.log(id);
   };
 
   return (
-    <div>
-      <section className="mx-auto py-16">
-        <div className="container mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-indigo-800 mb-8 text-center">
-            Applied Trainers
-          </h2>
-
-          <motion.table
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg"
-          >
-            <thead>
-              <tr>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">
-                  Image
-                </th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">
-                  Name
-                </th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">
-                  Email
-                </th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">
-                  Approve
-                </th>
-                <th className="py-2 px-4 text-left font-medium text-gray-700">
-                  Reject
-                </th>
+    <div className="mx-auto py-8 px-4 md:px-6 lg:px-8 max-w-6xl">
+      <h2 className="text-2xl md:text-3xl font-bold text-indigo-800 mb-6 text-center">
+        Applied Trainers
+      </h2>
+      <div className="overflow-x-auto">
+        <motion.table
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="w-full border border-gray-200 rounded-lg shadow-lg text-sm md:text-base"
+        >
+          <thead>
+            <tr className="bg-gray-100 text-gray-700">
+              <th className="py-2 px-4 text-left">Image</th>
+              <th className="py-2 px-4 text-left">Name</th>
+              <th className="py-2 px-4 text-left">Email</th>
+              <th className="py-2 px-4 text-center">Approve</th>
+              <th className="py-2 px-4 text-center">Reject</th>
+            </tr>
+          </thead>
+          <tbody>
+            {apply_trainer.map((trainer) => (
+              <tr key={trainer._id} className="border-t">
+                <td className="py-3 px-4">
+                  <img
+                    src={trainer.profileImage}
+                    alt={trainer.fullName}
+                    className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover"
+                  />
+                </td>
+                <td className="py-3 px-4">{trainer.fullName}</td>
+                <td className="py-3 px-4">{trainer.email}</td>
+                <td className="py-3 px-4 text-center">
+                  <button onClick={() => handleApprove(trainer._id)}>
+                    <FcApprove size={20} />
+                  </button>
+                </td>
+                <td className="py-3 px-4 text-center">
+                  <button onClick={() => handleReject(trainer._id)}>
+                    <MdDelete size={20} className="text-red-600" />
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {apply_trainer.map((trainer) => (
-                <tr key={trainer._id}>
-                  <td className="py-3 px-4">
-                    <img
-                      src={trainer.profileImage}
-                      alt={trainer.fullName}
-                      className="w-16 h-16 rounded-full"
-                    />
-                  </td>
-                  <td className="py-3 px-4">{trainer.fullName}</td>
-                  <td className="py-3 px-4">{trainer.email}</td>
-                 
-                  <td className="py-3 px-4">
-                    <button onClick={() => handleApprove(trainer._id)}>
-                      <FcApprove size={24} />
-                    </button>
-                  </td>
-                  <td className="py-3 px-4">
-                    <button onClick={() => handleReject(trainer._id)}>
-                      <MdDelete size={24} className="text-red-600" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </motion.table>
-        </div>
-      </section>
+            ))}
+          </tbody>
+        </motion.table>
+      </div>
     </div>
   );
 };

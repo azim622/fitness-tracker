@@ -17,7 +17,7 @@ const Banner = () => {
         {/* Slide 1 */}
         <div className="relative">
           <img 
-            src="https://i.ibb.co/BPWscpq/fitness-center-banner-design-template-23-2150017348.jpg" 
+            src="https://i.ibb.co.com/ksGx0w6c/images-12.jpg" 
             className="w-full h-[500px] object-cover"
             alt="Fitness Center Banner 1"
           />

@@ -39,6 +39,11 @@ const Login = () => {
     setPassword("123Aa@");
   };
 
+  const fillTrainerCredentials = () => {
+    setEmail("azim255@gmail.com");
+    setPassword("123Aa@");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white bg-opacity-20 backdrop-blur-lg rounded-lg shadow-lg p-8">
@@ -71,13 +76,22 @@ const Login = () => {
           >
             Log in
           </button>
+          <div className="flex gap-4">
           <button
             type="button"
             onClick={fillAdminCredentials}
-            className="w-full mt-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+            className="w-full mt-3  bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
           >
             Use Admin Credentials
           </button>
+          <button
+            type="button"
+            onClick={fillTrainerCredentials}
+            className="w-full mt-3  bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+          >
+            Use Trainer Credentials
+          </button>
+          </div>
         </form>
         <div className="my-6 text-center text-gray-600">OR</div>
         <SocialLogin />

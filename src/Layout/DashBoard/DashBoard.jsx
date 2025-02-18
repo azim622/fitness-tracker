@@ -68,7 +68,7 @@ const DashBoard = () => {
                 </li>
                 <li>
                   <NavLink to="/dashboard/admin/payment-balance" className="hover:bg-indigo-700 p-2 rounded-lg transition duration-300">
-                    Balance
+                    Over View
                   </NavLink>
                 </li>
                 <li>
