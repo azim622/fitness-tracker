@@ -31,8 +31,9 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-[#0047AB] shadow-lg">
-      <div className="mx-auto max-w-7xl px-6">
+    <header className="fixed w-full top-0 left-0 z-50  bg-[#0047AB] shadow-lg">
+      <div className="mx-auto container  px-6">
+
         <nav className="flex h-16 items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">

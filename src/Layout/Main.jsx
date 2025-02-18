@@ -9,7 +9,10 @@ const Main = () => {
     return (
         <div>
             {noHeaderFooter || <Navbar></Navbar>}
-      <Outlet></Outlet>
+            <div className='mt-16'>
+               <Outlet></Outlet>
+
+            </div>
       {noHeaderFooter || <Footer></Footer>}
         </div>
     );

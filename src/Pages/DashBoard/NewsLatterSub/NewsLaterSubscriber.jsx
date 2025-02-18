@@ -30,7 +30,7 @@ const NewsLaterSubscriber = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg"
+            className="min-w-full overflow-x-scroll bg-white border border-gray-200 rounded-lg shadow-lg"
           >
             <thead>
               <tr>
@@ -47,8 +47,11 @@ const NewsLaterSubscriber = () => {
               ))}
             </tbody>
           </motion.table>
+          
         </div>
+
       </section>
+      
         </div>
     );
 };
